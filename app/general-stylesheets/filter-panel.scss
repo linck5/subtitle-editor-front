@@ -1,0 +1,25 @@
+.filter-panel-container {
+
+  display: flex;
+  flex-direction: column;
+}
+
+.checkbox-container {
+  display: flex;
+}
+
+.checkbox-caption {
+  width: 10px;
+  height: auto;
+  margin-right: 8px;
+  margin-left: 8px;
+}
+
+.filter-input {
+  font-size: 20px;
+}
+
+mat-list{
+  user-select: none;
+  cursor: default;
+}

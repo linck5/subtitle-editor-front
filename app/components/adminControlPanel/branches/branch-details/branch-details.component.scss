@@ -1,0 +1,95 @@
+
+
+.main-container{
+
+  display: flex;
+  flex-direction: column;
+  padding: 30px 5%;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.upper-part-container{
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+
+.bottom-part-container{
+  flex: 0 0 230px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.bottom-part-buttons {
+  flex: 1;
+}
+.bottom-part-buttons button{
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  margin: 10px;
+  background-color: #EEE;
+}
+
+.option-label {
+  margin-right: 10px;
+}
+
+table{
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: center;
+  padding: 10px 6px;
+  border-bottom: 2px solid #ddd;
+}
+.id-col{
+  width: 3rem;
+}
+.time-col{
+  width: 5rem;
+  padding-top: 3px;
+  padding-bottom: 2px;
+}
+.pos-col{
+  width: 4rem;
+}
+.text-col{
+
+}
+.checkbox-col{
+  width: 4rem;
+  border: none;
+  background-color: white;
+}
+
+$stripe-degree: 55deg;
+$stripe-thickness: 3px;
+$stripe-gap-thickness: 18px;
+
+.edited-line {
+  $stripe-color: rgba(0, 0, 255, 0.1);
+  background: repeating-linear-gradient(
+    $stripe-degree, $stripe-color, $stripe-color $stripe-thickness, rgba(0, 0, 0, 0) $stripe-thickness, rgba(0, 0, 0, 0) $stripe-gap-thickness
+  );
+}
+
+.added-line {
+  $stripe-color: rgba(0, 255, 0, 0.1);
+  background: repeating-linear-gradient(
+    $stripe-degree, $stripe-color, $stripe-color $stripe-thickness, rgba(0, 0, 0, 0) $stripe-thickness, rgba(0, 0, 0, 0) $stripe-gap-thickness
+  );
+}
+
+.removed-line {
+  $stripe-color: rgba(255, 0, 0, 0.075);
+  background: repeating-linear-gradient(
+    $stripe-degree, $stripe-color, $stripe-color $stripe-thickness, rgba(0, 0, 0, 0) $stripe-thickness, rgba(0, 0, 0, 0) $stripe-gap-thickness
+  );
+}
+
+tr:hover {
+  background-color: rgba(0,0,0,0.03);
+}

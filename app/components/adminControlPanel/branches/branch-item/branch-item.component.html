@@ -1,0 +1,39 @@
+<mat-card>
+  <div class="card-and-status-line-container">
+    <div class="status-line">
+
+    </div>
+    <div class="card-container">
+
+      <mat-card-title>Branch Name</mat-card-title>
+      <mat-card-subtitle>03/03/17 - 22:19</mat-card-subtitle>
+
+      <div class="buttons-row">
+        <div class="left-side-buttons">
+          <button mat-icon-button><mat-icon>visibility</mat-icon></button>
+          <button mat-icon-button><mat-icon>info</mat-icon></button>
+          <button mat-icon-button><mat-icon>check</mat-icon></button>
+          <button mat-icon-button><mat-icon>delete</mat-icon></button>
+        </div>
+        <div class="right-side-buttons">
+          <button mat-button><mat-icon>notifications</mat-icon>ALL</button>
+        </div>
+      </div>
+      <div class="colaborator-list">
+        <app-branch-item-colaborator-list></app-branch-item-colaborator-list>
+      </div>
+      <div class="footer">
+        <div class="left-side-footer">
+          <button mat-button><mat-icon style="transform: rotate(180deg)">subdirectory_arrow_right</mat-icon>GO TO PARENT</button>
+        </div>
+        <div class="right-side-footer">
+          <span>last updated 43min ago</span>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+</mat-card>

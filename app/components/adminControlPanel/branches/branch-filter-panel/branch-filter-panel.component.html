@@ -1,0 +1,60 @@
+<div class="filter-panel-container">
+
+
+
+  <mat-input-container class="filter-input">
+    <input matInput placeholder="Filter by name or id">
+  </mat-input-container>
+
+  <div class="date-inputs">
+    <div class="date-input-from">
+      <mat-input-container>
+        <input matInput [matDatepicker]="fromPicker" placeholder="From">
+        <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+      </mat-input-container>
+      <mat-datepicker #fromPicker></mat-datepicker>
+    </div>
+    <div class="date-input-to">
+      <mat-input-container>
+        <input matInput [matDatepicker]="toPicker" placeholder="To">
+        <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+      </mat-input-container>
+      <mat-datepicker #toPicker></mat-datepicker>
+    </div>
+  </div>
+
+
+
+
+
+  <mat-list>
+
+
+    <h3 mat-subheader>Status</h3>
+    <mat-list-item>
+      <mat-checkbox><div class="checkbox-container"><div class="checkbox-caption" style="background-color: #EEA"></div>Active</div></mat-checkbox>
+    </mat-list-item>
+    <mat-list-item>
+      <mat-checkbox><div class="checkbox-container"><div class="checkbox-caption" style="background-color: darkgrey"></div>Pending</div></mat-checkbox>
+    </mat-list-item>
+    <mat-list-item>
+      <mat-checkbox><div class="checkbox-container"><div class="checkbox-caption" style="background-color: #ab89cc"></div>Banned</div></mat-checkbox>
+    </mat-list-item>
+
+    <mat-divider></mat-divider>
+
+    <h3 mat-subheader>Order by</h3>
+    <mat-list-item>
+
+      <app-filter-order-by></app-filter-order-by>
+
+
+    </mat-list-item>
+
+
+
+    <button mat-icon-button><mat-icon>add</mat-icon></button>
+
+  </mat-list>
+
+</div>

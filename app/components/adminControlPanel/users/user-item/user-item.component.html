@@ -1,0 +1,38 @@
+<li class="user-item">
+
+  <mat-card>
+
+    <div class="user-state-colorcode-block"></div>
+
+    <div class="user-item-content">
+
+      <!--https://unsplash.it/70/70?random-->
+      <div class="avatar"><img src="https://dummyimage.com/70x70/333/FC3.png"></div>
+
+      <div class="right-side-container">
+        <div class="username-row">
+          Username
+        </div>
+
+        <div class="chips-and-select-row">
+          <mat-chip-list>
+            <mat-chip style="background-color: #DFD">23</mat-chip>
+            <mat-chip style="background-color: #FDF">1</mat-chip>
+            <mat-chip style="background-color: #DFF">0</mat-chip>
+          </mat-chip-list>
+
+          <!--TODO: apply adm-color on mat-select only when the adm value is selected-->
+          <mat-select class="adm-color" placeholder="user" floatPlaceholder="never">
+            <mat-option value="adm" class="adm-color" default>adm</mat-option>
+            <mat-option value="user">user</mat-option>
+          </mat-select>
+        </div>
+
+      </div>
+    </div>
+
+  </mat-card>
+
+  <button mat-icon-button class="user-item-action-button"><mat-icon>delete</mat-icon></button>
+  <button mat-icon-button class="user-item-action-button"><mat-icon>block</mat-icon></button>
+</li>

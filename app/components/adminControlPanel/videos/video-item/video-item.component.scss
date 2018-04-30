@@ -1,0 +1,60 @@
+.video-item{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+mat-card {
+  width: 70%;
+  min-width: 370px;
+  max-width: 800px;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.description {
+  flex: 1;
+}
+
+.title-and-chips {
+  display: flex;
+}
+
+.title-and-chips mat-card-title {
+  flex: 1;
+}
+
+.footer {
+  display: flex;
+  align-items: flex-end;
+}
+
+.video-duration {
+  flex: 1;
+  margin-top: auto;
+  margin-bottom: 8px;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.creation-date {
+  margin-top: auto;
+  margin-bottom: 0;
+  color: #888;
+  font-size: 0.75rem;
+}
+
+mat-chip-list {
+  max-width: 60%;
+}
+
+mat-basic-chip {
+  font-size: 0.8rem;
+  margin: 2px 4px;
+  padding: 3px 10px;
+  border-radius: 8px;
+  background-color: #EEEEF9;
+}
