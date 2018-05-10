@@ -3,8 +3,7 @@ import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
 import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable ,  of } from 'rxjs';
 
 @Injectable()
 export class ApiService {

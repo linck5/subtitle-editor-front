@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ApiService } from '../../../shared/api.service';
 import { AuthService } from '../../../shared/auth.service';
 
@@ -31,7 +31,8 @@ export class Test1Component implements OnInit {
 
           this.apiService.get('message')
           .subscribe(data => {
-            console.log("data > " + data);
+            console.log("response from message service > " + JSON.stringify(data));
+            this.stuff = data[0].message;
           });
         });
 

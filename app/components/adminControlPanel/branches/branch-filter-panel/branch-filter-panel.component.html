@@ -2,23 +2,23 @@
 
 
 
-  <mat-input-container class="filter-input">
+  <mat-form-field class="filter-input">
     <input matInput placeholder="Filter by name or id">
-  </mat-input-container>
+  </mat-form-field>
 
   <div class="date-inputs">
     <div class="date-input-from">
-      <mat-input-container>
+      <mat-form-field>
         <input matInput [matDatepicker]="fromPicker" placeholder="From">
         <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
-      </mat-input-container>
+      </mat-form-field>
       <mat-datepicker #fromPicker></mat-datepicker>
     </div>
     <div class="date-input-to">
-      <mat-input-container>
+      <mat-form-field>
         <input matInput [matDatepicker]="toPicker" placeholder="To">
         <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
-      </mat-input-container>
+      </mat-form-field>
       <mat-datepicker #toPicker></mat-datepicker>
     </div>
   </div>
