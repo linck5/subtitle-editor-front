@@ -1,0 +1,31 @@
+.container, .container *{
+    box-sizing: border-box;
+}
+
+.top-section{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.video-section {
+    // flex: 0 1 auto;
+    // max-width: 600px;
+
+    img {
+        width:100%;
+        margin: auto;
+    }
+}
+.timeline {
+    
+    min-width: 320px;
+    min-height: 200px;
+
+    flex: 1 1 auto;
+
+    //placeholder stuff
+    border:5px solid black;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}

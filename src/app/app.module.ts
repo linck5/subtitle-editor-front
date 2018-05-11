@@ -34,13 +34,12 @@ import { VideoItemComponent } from './components/adminControlPanel/videos/video-
 import { VideoListComponent } from './components/adminControlPanel/videos/video-list/video-list.component';
 import { VideoFilterPanelComponent } from './components/adminControlPanel/videos/video-filter-panel/video-filter-panel.component';
 
-
-
-
 import { ApiService } from './shared/api.service';
 import { AuthService } from './shared/auth.service';
 import { AuthGuard } from './auth.guard';
-import { MaterialModule } from './material.module';
+import { MaterialModule } from './shared/material.module';
+import { SubSyncerComponent } from './components/sub-syncer/sub-syncer-window/sub-syncer.component';
+import { SubListComponent } from './components/sub-syncer/sub-list/sub-list.component';
 
 
 
@@ -66,7 +65,9 @@ import { MaterialModule } from './material.module';
     BranchFilterPanelComponent,
     VideoFilterPanelComponent,
     SubtitleFilterPanelComponent,
-    BranchDetailsComponent
+    BranchDetailsComponent,
+    SubSyncerComponent,
+    SubListComponent
   ],
   imports: [
     BrowserModule,
