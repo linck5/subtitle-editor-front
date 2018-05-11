@@ -5,22 +5,22 @@
   "projects": {
     "MelonSubSyncer": {
       "root": "",
-      "sourceRoot": "./",
+      "sourceRoot": "src",
       "projectType": "application",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "./build",
-            "index": ".//index.html",
-            "main": ".//main.ts",
+            "index": "src/index.html",
+            "main": "src/main.ts",
             "tsConfig": ".//tsconfig.json",
-            "polyfills": ".//polyfills.ts",
+            "polyfills": "src/polyfills.ts",
             "assets": [
-              ".//favicon.ico"
+              "src/favicon.ico"
             ],
             "styles": [
-              "styles.scss"
+              "src/styles.scss"
             ],
             "scripts": []
           },

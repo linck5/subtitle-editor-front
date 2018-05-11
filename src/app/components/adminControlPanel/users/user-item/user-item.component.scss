@@ -1,0 +1,88 @@
+$item-height: 80px;
+
+.user-item{
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  margin: 15px 10px 0px 10px;
+}
+
+.user-item mat-card {
+  width: 70%;
+  min-width: 370px;
+  max-width: 640px;
+  height: $item-height;
+  padding: 0px;
+}
+
+.user-item-action-button{
+  width: $item-height - 26;
+  height: $item-height - 26;
+  margin: 13px;
+  background-color: #F6F6F6;
+}
+
+.user-item-content {
+  position: absolute;
+  width: 100%;
+  height: $item-height;
+  z-index: 2;
+  display: flex;
+}
+
+.avatar{
+
+}
+
+.avatar img {
+  border-radius: 50%;
+  margin-left: 25px;
+  margin-right: 18px;
+  margin-top: 5px;
+	display: block;
+}
+
+.right-side-container{
+  flex: 3;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.username-row{
+  flex: 1;
+  font-size: 20px;
+}
+
+.chips-and-select-row{
+  flex: 1;
+  display: flex;
+}
+
+.chips-and-select-row mat-chip-list{
+  flex: 1;
+}
+
+.chips-and-select-row mat-select{
+  flex: 1;
+}
+
+.user-item-action-button mat-icon{
+  font-size: 36px;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+}
+
+.user-state-colorcode-block {
+  position: absolute;
+  background-color: #EEA;
+  width: 60px;
+  height: $item-height;
+  z-index: 1;
+}
+
+/*TODO: apply these only when the value is adm*/
+>>> .adm-color, >>> .mat-select-value-text, >>> .adm-color > div > span.mat-select-placeholder {
+    color: purple; /*TODO: get a reference to accent color*/
+}
