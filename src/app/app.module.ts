@@ -40,14 +40,10 @@ import { VideoFilterPanelComponent } from './components/adminControlPanel/videos
 import { ApiService } from './shared/api.service';
 import { AuthService } from './shared/auth.service';
 import { AuthGuard } from './auth.guard';
+import { MaterialModule } from './material.module';
 
 
-import {
-  MatChipsModule, MatSelectModule, MatCardModule, MatIconModule, MatToolbarModule,
-  MatListModule, MatCheckboxModule, MatButtonToggleModule, MatDatepickerModule,
-  MatTabsModule, MatButtonModule, MatFormFieldModule, MatInputModule,
-  MatNativeDateModule
-} from '@angular/material';
+
 
 @NgModule({
   declarations: [
@@ -78,11 +74,7 @@ import {
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-
-    MatChipsModule, MatSelectModule, MatCardModule, MatIconModule, MatToolbarModule,
-    MatListModule, MatCheckboxModule, MatButtonToggleModule, MatDatepickerModule,
-    MatTabsModule, MatButtonModule, MatFormFieldModule, MatInputModule,
-    MatNativeDateModule
+    MaterialModule
   ],
   providers: [ApiService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
