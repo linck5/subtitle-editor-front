@@ -40,9 +40,7 @@ import { AuthGuard } from './auth.guard';
 import { MaterialModule } from './shared/material.module';
 import { SubSyncerComponent } from './components/sub-syncer/sub-syncer-window/sub-syncer.component';
 import { SubListComponent } from './components/sub-syncer/sub-list/sub-list.component';
-
-
-
+import { VideoPreviewComponent } from './components/sub-syncer/video-preview/video-preview.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +65,8 @@ import { SubListComponent } from './components/sub-syncer/sub-list/sub-list.comp
     SubtitleFilterPanelComponent,
     BranchDetailsComponent,
     SubSyncerComponent,
-    SubListComponent
+    SubListComponent,
+    VideoPreviewComponent
   ],
   imports: [
     BrowserModule,

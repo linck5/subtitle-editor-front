@@ -1,15 +1,26 @@
-<!-- <table mat-table [dataSource]="subList">
-    <ng-container matColumnDef="userName">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let user"> {{user.name}} </td>
+<table mat-table [dataSource]="subList">
+    <ng-container matColumnDef="subId">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let sub"> {{sub.id}} </td>
     </ng-container>
-    <ng-container matColumnDef="userName">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let user"> {{user.name}} </td>
+    <ng-container matColumnDef="subTime">
+      <th mat-header-cell *matHeaderCellDef>Start/End</th>
+      <td mat-cell *matCellDef="let sub">
+        <div class="time-cell">
+          <div>{{sub.startTime | date:"mm:ss:SS"}}</div>
+          <div>{{sub.endTime | date:"mm:ss:SS"}}</div>
+        </div>
+      </td>
     </ng-container>
-    <ng-container matColumnDef="userName">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let user"> {{user.name}} </td>
+    <ng-container matColumnDef="subPosition">
+      <th mat-header-cell *matHeaderCellDef>Position</th>
+      <td mat-cell *matCellDef="let sub">{{sub.position}}</td>
     </ng-container>
+    <ng-container matColumnDef="subText">
+      <th mat-header-cell *matHeaderCellDef>text</th>
+      <td mat-cell *matCellDef="let sub">{{sub.text}}</td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let subItem; columns: columnsToDisplay"></tr>
 </table>
-   -->
+  

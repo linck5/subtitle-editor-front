@@ -6,6 +6,7 @@ import {
   MatTabsModule, MatButtonModule, MatFormFieldModule, MatInputModule,
   MatNativeDateModule
 } from '@angular/material';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   imports: [
@@ -20,7 +21,7 @@ import {
     MatChipsModule, MatSelectModule, MatCardModule, MatIconModule, MatToolbarModule,
     MatListModule, MatCheckboxModule, MatButtonToggleModule, MatDatepickerModule,
     MatTabsModule, MatButtonModule, MatFormFieldModule, MatInputModule,
-    MatNativeDateModule
+    MatNativeDateModule, MatTableModule
   ]
 })
 export class MaterialModule { }

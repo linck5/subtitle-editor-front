@@ -1,0 +1,19 @@
+.time-cell{
+    display:flex;
+    justify-content: center;
+    flex-flow: column;
+    align-items: flex-start;
+}
+table {
+    width: 100%;
+}
+th.mat-header-cell{
+    padding: 5px 20px;
+}
+td.mat-cell {
+    padding: 20px;
+}
+:host {
+    width: 50%;
+    overflow: auto;
+}
