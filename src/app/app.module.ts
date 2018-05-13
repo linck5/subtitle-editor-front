@@ -67,7 +67,7 @@ import { LoginComponent } from './components/adminControlPanel/login/login.compo
     BranchDetailsComponent,
     SubSyncerComponent,
     SubListComponent,
-    VideoPreviewComponent
+    VideoPreviewComponent,
     LoginComponent
   ],
   imports: [

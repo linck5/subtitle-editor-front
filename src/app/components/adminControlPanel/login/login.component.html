@@ -1,18 +1,20 @@
-<mat-card>
+<mat-card class="loginBox">
 
-  <form name="loginForm" ng-submit="login.login()">
+  <form #form=ngForm name="loginForm" (ngSubmit)="onSubmit(form)">
 
     <h2>Log In</h2>
 
     <mat-form-field>
-      <input matInput placeholder="Username">
+      <input matInput name="username" placeholder="Username" ngModel required>
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput placeholder="Password">
+      <input matInput name="password" placeholder="Password" ngModel required>
     </mat-form-field>
 
-    <button mat-button type="submit" ng-disabled="loginForm.$invalid">Login</button>
+    <mat-error *ngIf="!ok">errortest</mat-error>
+
+    <button mat-button type="submit"  [disabled]="!ok">Login</button>
 
   </form>
 
