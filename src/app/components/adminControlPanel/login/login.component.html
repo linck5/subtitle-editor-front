@@ -1,0 +1,19 @@
+<mat-card>
+
+  <form name="loginForm" ng-submit="login.login()">
+
+    <h2>Log In</h2>
+
+    <mat-form-field>
+      <input matInput placeholder="Username">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Password">
+    </mat-form-field>
+
+    <button mat-button type="submit" ng-disabled="loginForm.$invalid">Login</button>
+
+  </form>
+
+</mat-card>

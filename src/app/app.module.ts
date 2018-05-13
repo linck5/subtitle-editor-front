@@ -41,6 +41,7 @@ import { MaterialModule } from './shared/material.module';
 import { SubSyncerComponent } from './components/sub-syncer/sub-syncer-window/sub-syncer.component';
 import { SubListComponent } from './components/sub-syncer/sub-list/sub-list.component';
 import { VideoPreviewComponent } from './components/sub-syncer/video-preview/video-preview.component';
+import { LoginComponent } from './components/adminControlPanel/login/login.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { VideoPreviewComponent } from './components/sub-syncer/video-preview/vid
     SubSyncerComponent,
     SubListComponent,
     VideoPreviewComponent
+    LoginComponent
   ],
   imports: [
     BrowserModule,
