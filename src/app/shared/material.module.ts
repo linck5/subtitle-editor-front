@@ -4,7 +4,7 @@ import {
   MatChipsModule, MatSelectModule, MatCardModule, MatIconModule, MatToolbarModule,
   MatListModule, MatCheckboxModule, MatButtonToggleModule, MatDatepickerModule,
   MatTabsModule, MatButtonModule, MatFormFieldModule, MatInputModule,
-  MatNativeDateModule
+  MatNativeDateModule, MatProgressSpinnerModule
 } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
 
@@ -14,14 +14,14 @@ import { MatTableModule } from '@angular/material/table';
     MatChipsModule, MatSelectModule, MatCardModule, MatIconModule, MatToolbarModule,
     MatListModule, MatCheckboxModule, MatButtonToggleModule, MatDatepickerModule,
     MatTabsModule, MatButtonModule, MatFormFieldModule, MatInputModule,
-    MatNativeDateModule
+    MatNativeDateModule, MatProgressSpinnerModule
   ],
   declarations: [],
   exports: [
     MatChipsModule, MatSelectModule, MatCardModule, MatIconModule, MatToolbarModule,
     MatListModule, MatCheckboxModule, MatButtonToggleModule, MatDatepickerModule,
     MatTabsModule, MatButtonModule, MatFormFieldModule, MatInputModule,
-    MatNativeDateModule, MatTableModule
+    MatNativeDateModule, MatTableModule, MatProgressSpinnerModule
   ]
 })
 export class MaterialModule { }

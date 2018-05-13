@@ -17,7 +17,7 @@ const routes: Routes = [
     component: Test1Component
   },
   {
-    path: 'login',
+    path: 'admin/login',
     component: LoginComponent
   },
   {

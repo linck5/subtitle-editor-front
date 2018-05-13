@@ -11,7 +11,8 @@ import {NgForm} from '@angular/forms';
 export class LoginComponent implements OnInit {
 
 
-  ok: Boolean = false;
+  ok: Boolean = true;
+  submitting: Boolean = false;
 
   constructor(private apiService: ApiService, private authService: AuthService) { }
 
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-
+    this.submitting = true;
     console.log(form.valid)
 
     const payload = {
@@ -28,6 +29,7 @@ export class LoginComponent implements OnInit {
     };
     this.apiService.post('auth/authenticate', payload)
       .subscribe((data: any) => {
+        this.submitting = false;
         this.authService.setToken(data.token);
       });
   }

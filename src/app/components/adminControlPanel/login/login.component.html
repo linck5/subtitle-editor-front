@@ -13,6 +13,7 @@
     </mat-form-field>
 
     <mat-error *ngIf="!ok">errortest</mat-error>
+    <mat-spinner *ngIf="submitting"></mat-spinner>
 
     <button mat-button type="submit"  [disabled]="!ok">Login</button>
 
