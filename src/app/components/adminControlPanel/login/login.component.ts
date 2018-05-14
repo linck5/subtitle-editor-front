@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../../shared/api.service';
 import { AuthService } from '../../../shared/auth.service';
 import {NgForm} from '@angular/forms';
+import { finalize } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +13,7 @@ import {NgForm} from '@angular/forms';
 export class LoginComponent implements OnInit {
 
 
+  error: string = "";
   ok: Boolean = true;
   submitting: Boolean = false;
 
@@ -28,10 +31,23 @@ export class LoginComponent implements OnInit {
       password: form.value.password
     };
     this.apiService.post('auth/authenticate', payload)
-      .subscribe((data: any) => {
-        this.submitting = false;
-        this.authService.setToken(data.token);
-      });
+      .pipe( finalize( ()=>{ this.submitting = false; } ))
+      .subscribe(
+        (data: any) => {
+          this.error = "";
+          this.authService.setToken(data.token);
+        },
+        (err: HttpErrorResponse) => {
+          if(err.error.code == 'authDenied'){
+            this.error = "Incorrect username or password."
+          }
+        }
+      )
+
+
+      ;
+
+
   }
 
 }

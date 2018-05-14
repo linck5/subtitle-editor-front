@@ -12,7 +12,7 @@
       <input matInput name="password" placeholder="Password" ngModel required>
     </mat-form-field>
 
-    <mat-error *ngIf="!ok">errortest</mat-error>
+    <mat-error >{{error}}</mat-error>
     <mat-spinner *ngIf="submitting"></mat-spinner>
 
     <button mat-button type="submit"  [disabled]="!ok">Login</button>
