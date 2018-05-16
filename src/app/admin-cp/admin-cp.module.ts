@@ -34,6 +34,9 @@ import { VideoListComponent } from './components/videos/video-list/video-list.co
 import { VideoFilterPanelComponent } from './components/videos/video-filter-panel/video-filter-panel.component';
 import { AdminCpComponent } from './admin-cp.component';
 import { BranchMainComponent } from './components/branches/branch-main/branch-main.component';
+import { UserMainComponent } from './components/users/user-main/user-main.component';
+import { SubtitleMainComponent } from './components/subtitles/subtitle-main/subtitle-main.component';
+import { VideoMainComponent } from './components/videos/video-main/video-main.component';
 
 @NgModule({
   imports: [
@@ -65,6 +68,9 @@ import { BranchMainComponent } from './components/branches/branch-main/branch-ma
     BranchDetailsComponent,
     AdminCpComponent,
     BranchMainComponent,
+    UserMainComponent,
+    SubtitleMainComponent,
+    VideoMainComponent,
   ]
 })
 export class AdminCpModule { }
