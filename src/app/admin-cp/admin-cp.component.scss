@@ -1,0 +1,44 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.top-bar {
+  flex: 0 0 auto;
+}
+
+.main {
+  flex: 1;
+  height: 100%;
+  min-height: 0;
+}
+
+.content-full {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.content-with-filter-container {
+  display: flex;
+  flex-wrap: wrap;
+
+}
+
+.filter-panel {
+  height: 100%;
+  box-sizing: border-box;
+  width: 300px;
+  padding: 20px;
+  background-color: #F9F9F9;
+
+
+}
+
+.content{
+  flex: 1;
+  overflow-y: scroll;
+
+  height: 100%;
+}
