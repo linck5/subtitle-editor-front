@@ -37,6 +37,7 @@ import { BranchMainComponent } from './components/branches/branch-main/branch-ma
 import { UserMainComponent } from './components/users/user-main/user-main.component';
 import { SubtitleMainComponent } from './components/subtitles/subtitle-main/subtitle-main.component';
 import { VideoMainComponent } from './components/videos/video-main/video-main.component';
+import { AdmCpNotFoundComponent } from './components/adm-cp-not-found/adm-cp-not-found.component';
 
 @NgModule({
   imports: [
@@ -71,6 +72,7 @@ import { VideoMainComponent } from './components/videos/video-main/video-main.co
     UserMainComponent,
     SubtitleMainComponent,
     VideoMainComponent,
+    AdmCpNotFoundComponent,
   ]
 })
 export class AdminCpModule { }

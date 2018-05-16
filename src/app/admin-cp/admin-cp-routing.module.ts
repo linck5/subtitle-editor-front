@@ -7,6 +7,7 @@ import { UserMainComponent } from './components/users/user-main/user-main.compon
 import { BranchMainComponent } from './components/branches/branch-main/branch-main.component';
 import { SubtitleMainComponent } from './components/subtitles/subtitle-main/subtitle-main.component';
 import { VideoMainComponent } from './components/videos/video-main/video-main.component';
+import { AdmCpNotFoundComponent } from './components/adm-cp-not-found/adm-cp-not-found.component';
 import { AdminCpComponent } from './admin-cp.component';
 
 
@@ -38,6 +39,10 @@ const adminCpRoutes: Routes = [
       {
         path: 'videos',
         component: VideoMainComponent
+      },
+      {
+        path: '**',
+        component: AdmCpNotFoundComponent
       }
     ]
   },
