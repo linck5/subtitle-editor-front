@@ -9,21 +9,11 @@
 
   <nav mat-tab-nav-bar>
     <a mat-tab-link
-       routerLink="link"
-       active="true">
-      Users
-    </a>
-    <a mat-tab-link
-       routerLink="link">
-      Branches
-    </a>
-    <a mat-tab-link
-       routerLink="link">
-      Subtitles
-    </a>
-    <a mat-tab-link
-       routerLink="link">
-      Videos
+       *ngFor="let link of navLinks"
+       [routerLink]="link.path"
+       routerLinkActive #rla="routerLinkActive"
+       [active]="rla.isActive">
+      {{link.label}}
     </a>
   </nav>
 
