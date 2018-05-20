@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { AdminCpRoutingModule } from './admin-cp-routing.module';
 import { FormsModule }    from '@angular/forms';
 import { MaterialModule } from '../shared/material.module';
-import { LoginComponent } from './components/login/login.component'
 
 
 //-------------------COMPONENTS
@@ -47,7 +46,6 @@ import { AdmCpNotFoundComponent } from './components/adm-cp-not-found/adm-cp-not
     FormsModule
   ],
   declarations: [
-    LoginComponent,
     Test1Component,
 
     UserItemComponent,

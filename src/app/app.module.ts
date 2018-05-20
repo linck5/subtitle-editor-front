@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
+import { LoginComponent } from './components/login/login.component';
 
 import { ApiService } from './shared/api.service';
 import { AuthService } from './shared/auth.service';
@@ -21,6 +22,7 @@ import { VideoPreviewComponent } from './components/sub-syncer/video-preview/vid
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
 
     SubSyncerComponent,
     SubListComponent,
@@ -37,8 +39,4 @@ import { VideoPreviewComponent } from './components/sub-syncer/video-preview/vid
   providers: [ApiService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-  constructor(router: Router) {
-     console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
-   }
-  }
+export class AppModule {}

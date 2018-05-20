@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from './components/login/login.component';
+//import { LoginComponent } from './components/login/login.component';
 
 import { UserMainComponent } from './components/users/user-main/user-main.component';
 import { BranchMainComponent } from './components/branches/branch-main/branch-main.component';
@@ -47,10 +47,10 @@ const adminCpRoutes: Routes = [
     ]
   },
 
-  {
-    path: 'login',
-    component: LoginComponent
-  }
+  // {
+  //   path: 'login',
+  //   component: LoginComponent
+  // }
 
 ];
 
