@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from './api.service';
+import { Observable } from 'rxjs'
 
 @Injectable()
 export class AuthService {
   storageKey = 'MelonSubSyncerJwt';
 
-  constructor(private router: Router) {
-  }
+  constructor(private router: Router, private apiService: ApiService) {}
 
   deleteToken() {
     localStorage.removeItem(this.storageKey);
@@ -23,6 +23,16 @@ export class AuthService {
 
   isTokenSet(): boolean {
     return this.getToken() !== null;
+  }
+
+  login(username: string, password:string):Observable<any> {
+    const postObservable = this.apiService.post('auth/authenticate', {
+      username, password
+    });
+    postObservable.subscribe(
+      data => this.setToken(data.token)
+    );
+    return postObservable;
   }
 
   logout(): void {
