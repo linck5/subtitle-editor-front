@@ -10,10 +10,10 @@ export class ApiService {
 
   private baseUrl: string = environment.apiUrl;
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient) {}
 
   get(url: string): Observable<any> {
-    return this.http.get<any>(this.getFullURL(url), this.getHttpOptions())
+    return this.http.get<any>(this.getFullURL(url))
       .pipe(
         catchError(this.handleError)
       );
@@ -24,7 +24,7 @@ export class ApiService {
   post(url: string, body: Object): Observable<any> {
 
 
-    return this.http.post<any>(this.getFullURL(url), body, this.getHttpOptions())
+    return this.http.post<any>(this.getFullURL(url), body)
       .pipe(
         catchError(this.handleError)
       );
@@ -43,17 +43,6 @@ export class ApiService {
   getFullURL(url: string): string {
     return `${this.baseUrl}/${url}`;
   }
-
-  getHttpOptions(): Object {
-    return {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'Authorization': `Bearer ${this.authService.getToken()}`
-      }),
-      observe: 'response'
-    };
-  }
-
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

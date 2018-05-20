@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './shared/auth.interceptor';
+
 import { AppRoutingModule } from './app-routing.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -36,7 +39,9 @@ import { VideoPreviewComponent } from './components/sub-syncer/video-preview/vid
     BrowserAnimationsModule,
     MaterialModule
   ],
-  providers: [ApiService, AuthService, AuthGuard],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    ApiService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
