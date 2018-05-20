@@ -13,19 +13,27 @@ const routes: Routes = [
   },
 
   {
-    path: 'admin',
-    loadChildren: './admin-cp/admin-cp.module#AdminCpModule'
-  },
+    path: '',
+    canActivateChild: [AuthGuard],
+    children: [
+      {
+        path: 'admin',
+        loadChildren: './admin-cp/admin-cp.module#AdminCpModule'
+      },
 
-  {
-    path: 'subSyncer',
-    component: SubSyncerComponent
+      {
+        path: 'subSyncer',
+        component: SubSyncerComponent
+      }
+    ]
   },
 
   {
     path: 'login',
     component: LoginComponent
   }
+
+
 ];
 
 @NgModule({
