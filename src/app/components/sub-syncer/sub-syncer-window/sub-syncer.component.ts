@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { SubListComponent } from '../sub-list/sub-list.component';
 
 @Component({
   selector: 'app-sub-syncer',
@@ -8,9 +9,27 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class SubSyncerComponent implements OnInit {
 
+  @ViewChildren(SubListComponent, { read:ElementRef })
+  sublistComponents: QueryList<ElementRef>;
+  ignoreScroll:boolean = false;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  scrollOtherList(event:Event){
+    if(this.ignoreScroll){
+      this.ignoreScroll = false;
+      return;
+    }
+
+    for(let subList of this.sublistComponents.toArray()){
+      if(subList.nativeElement != event.target){
+        subList.nativeElement.scrollTop = event.target["scrollTop"];
+        this.ignoreScroll = true;
+      }
+    }
   }
 
 }

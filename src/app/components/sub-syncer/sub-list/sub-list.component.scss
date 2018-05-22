@@ -14,6 +14,12 @@ td.mat-cell {
     padding: 20px;
 }
 :host {
-    width: 50%;
+    // width: 50%;
     overflow: auto;
 }
+
+.mat-header-row {
+    position: sticky;
+    top: 0;
+    background: white;
+  }
