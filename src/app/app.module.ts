@@ -22,8 +22,12 @@ import { SubSyncerComponent } from './components/sub-syncer/sub-syncer-window/su
 import { SubListComponent } from './components/sub-syncer/sub-list/sub-list.component';
 import { VideoPreviewComponent } from './components/sub-syncer/video-preview/video-preview.component';
 
+import { Autosize } from './components/sub-syncer/autosize.directive'
+
+
 @NgModule({
   declarations: [
+    Autosize,
     AppComponent,
     LoginComponent,
 

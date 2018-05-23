@@ -15,7 +15,7 @@
     </div>
   </div>
   <div class="sub-lists">
-    <app-sub-list (scroll)="scrollOtherList($event)"></app-sub-list>
-    <app-sub-list (scroll)="scrollOtherList($event)"></app-sub-list>
+    <app-sub-list [sampleListId]="1" (scroll)="scrollOtherList($event)"></app-sub-list>
+    <app-sub-list [sampleListId]="2" (scroll)="scrollOtherList($event)"></app-sub-list>
   </div>
 </div>

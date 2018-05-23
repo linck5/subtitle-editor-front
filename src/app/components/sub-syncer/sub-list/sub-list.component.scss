@@ -22,4 +22,14 @@ td.mat-cell {
     position: sticky;
     top: 0;
     background: white;
-  }
+    z-index: 1;
+}
+
+textarea {
+    width:100%;
+    font-family: inherit;
+    resize: none;
+    border: none;
+    display:inline-block;
+    vertical-align:middle;
+}
