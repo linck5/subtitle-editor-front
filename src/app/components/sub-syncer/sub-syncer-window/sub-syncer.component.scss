@@ -23,18 +23,17 @@ body,html{
         margin: auto;
     }
 }
-.timeline {
+.timeline-cont {
     
     min-width: 320px;
     min-height: 200px;
 
     flex: 1 1 auto;
 
-    //placeholder stuff
-    border:5px solid black;
     display:flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 .sub-lists{
     flex: 1 1 auto;

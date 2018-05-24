@@ -12,15 +12,20 @@
         </div>
       </td>
     </ng-container>
+    
     <ng-container matColumnDef="subPosition">
       <th mat-header-cell *matHeaderCellDef>Position</th>
-      <td mat-cell *matCellDef="let sub">{{sub.position}}</td>
+      <td mat-cell *matCellDef="let sub">
+          <mat-select [(value)]="sub.position">
+              <mat-option *ngFor="let position of getPositions();" value="{{position}}">{{position}}</mat-option>
+          </mat-select>
+      </td>
     </ng-container>
     <ng-container matColumnDef="subText">
       <th mat-header-cell *matHeaderCellDef>Text</th>
       <td mat-cell *matCellDef="let sub">
         <!-- {{sub.text}} -->
-				<textarea autosize placeholder="Text" [value]="sub.text" [(ngModel)]="sub.text"></textarea>
+				<textarea autosize rows=1 placeholder="Text" [value]="sub.text" [(ngModel)]="sub.text"></textarea>
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>

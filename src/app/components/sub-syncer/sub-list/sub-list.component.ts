@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Subtitle, Position } from '../subtitle';
 
+const positions = Object.keys(Position);
+
 @Component({
   selector: 'app-sub-list',
   templateUrl: './sub-list.component.html',
@@ -43,6 +45,10 @@ export class SubListComponent implements OnInit {
       if(Math.floor((Math.random() * 5) + 1) === 1)
         this.subList.push(new Subtitle(1,200,300, longSample))
     }
+  }
+
+  private getPositions() {
+    return positions
   }
 
 }
