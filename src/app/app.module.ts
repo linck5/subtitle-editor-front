@@ -23,7 +23,8 @@ import { SubListComponent } from './components/sub-syncer/sub-list/sub-list.comp
 import { VideoPreviewComponent } from './components/sub-syncer/video-preview/video-preview.component';
 
 import { Autosize } from './components/sub-syncer/autosize.directive';
-import { TimelineComponent } from './components/sub-syncer/timeline/timeline.component'
+import { TimelineComponent } from './components/sub-syncer/timeline/timeline.component';
+import { SubItemComponent } from './components/sub-syncer/timeline/sub-item/sub-item.component'
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { TimelineComponent } from './components/sub-syncer/timeline/timeline.com
     SubSyncerComponent,
     SubListComponent,
     VideoPreviewComponent,
-    TimelineComponent
+    TimelineComponent,
+    SubItemComponent
   ],
   imports: [
     BrowserModule,

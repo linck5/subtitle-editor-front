@@ -21,30 +21,18 @@
     align-items: center;
     justify-content: center;
     flex-flow: column;
-}
-
-.sub {
-    width:200px;
-    height:100px;
-    background: rgba(grey,.1);
-    border: 3px solid black;
-    margin: 20px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.top .sub {
-    border-color: rgb(255, 132, 101);
-}
-
-.bottom .sub {
-    border-color: rgb(80, 80, 253);
+    left: 0;
 }
 
 .timeline-row {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
 }
 
 .center-cont {

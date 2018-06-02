@@ -1,0 +1,42 @@
+:host {
+    width:200px;
+    height:100px;
+    background: rgba(grey,.1);
+    border: 2px solid black;
+    border-radius: 5px;
+    cursor: grab;
+    position: absolute;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Noto Sans CJK JP';
+
+    &.dragging {
+        cursor: grabbing;
+    }
+}
+
+.top :host {
+    border-color: rgba(255, 132, 101, 0.2);
+}
+
+.bottom :host {
+    border-color: rgba(80, 80, 253, 0.5);
+}
+
+$drag-handle-width: 10px;
+
+.drag{
+    height: 100%;
+    width: $drag-handle-width;
+    position: absolute;
+    left: -$drag-handle-width/2;
+    // background: red;
+    cursor: w-resize;
+
+    &.right {
+        right: -$drag-handle-width/2;
+        left: unset;
+    }
+}

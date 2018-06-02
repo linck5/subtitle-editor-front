@@ -1,12 +1,14 @@
 <div class="timeline-cont" #timelineCont (mousewheel)="scrollHorizontally($event)" (DOMMouseScroll)="scrollHorizontally($event)">
-    <div class="timeline">
+    <div class="timeline" [style.width.px]="timelineWidth">
         <div class="timeline-row top">
-          <div class="sub" *ngFor="let lol of subPlaceholders"></div>
+          <!-- <div class="sub" *ngFor="let lol of subPlaceholders"></div> -->
+          <app-sub-item *ngFor="let lol of subPlaceholders; let i = index" [style.left.px]="300*i"></app-sub-item>
         </div>
         <div class="timeline-row bottom">
-          <div class="sub" *ngFor="let lol of subPlaceholders"></div>
+          <!-- <div class="sub" *ngFor="let lol of subPlaceholders"></div> -->
+          <app-sub-item *ngFor="let lol of subPlaceholders; let i = index" [style.left.px]="300*i"></app-sub-item>
         </div>
-    </div>      
+    </div>
 </div>
 <div class="center-cont">
     <div class="horizontal-divider"></div>

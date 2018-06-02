@@ -1,5 +1,7 @@
-import { Component, OnInit, ViewEncapsulation, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChildren, QueryList, ElementRef, ViewChild } from '@angular/core';
 import { SubListComponent } from '../sub-list/sub-list.component';
+import { Player } from 'video.js';
+import { TimelineComponent } from '../timeline/timeline.component';
 
 @Component({
   selector: 'app-sub-syncer',
@@ -11,6 +13,10 @@ export class SubSyncerComponent implements OnInit {
 
   @ViewChildren(SubListComponent, { read:ElementRef })
   sublistComponents: QueryList<ElementRef>;
+
+  @ViewChild(TimelineComponent)
+  timelineComp: TimelineComponent
+
   ignoreScroll:boolean = false;
 
   constructor() { }
@@ -30,6 +36,10 @@ export class SubSyncerComponent implements OnInit {
         this.ignoreScroll = true;
       }
     }
+  }
+
+  onPlayerLoad(player:Player){
+    this.timelineComp.onPlayerLoad(player);
   }
 
 }

@@ -9,7 +9,7 @@
     <!-- <div class="video-section">
       <img src="https://loremflickr.com/600/350" />
     </div> -->
-    <app-video-preview></app-video-preview>
+    <app-video-preview (vPlayerLoad)="onPlayerLoad($event)"></app-video-preview>
     <div class="timeline-cont">
       <app-timeline></app-timeline>
     </div>
