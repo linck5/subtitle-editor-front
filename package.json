@@ -1,6 +1,10 @@
 {
   "name": "MelonSubSyncerFrontEnd",
   "version": "0.0.3",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://bitbucket.org/larss100/mss-front"
+  },
   "license": "MIT",
   "scripts": {
     "start": "ng serve --proxy-config proxy.conf.json"
