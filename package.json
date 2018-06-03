@@ -54,7 +54,7 @@
     "protractor": "~5.1.2",
     "ts-loader": "^2.3.7",
     "tslint": "~5.7.0",
-    "typescript": "^2.7.2",
+    "typescript": "~2.7.2",
     "video.js": "^6.9.0"
   }
 }
