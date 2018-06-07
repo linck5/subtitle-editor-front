@@ -1,21 +1,15 @@
-<div class="sub-editor">
-  <mat-toolbar color="primary">
-    <span>Subtitle Maker</span>
-    <span class="auto-filler"></span>
-    <mat-icon>menu</mat-icon>
-  </mat-toolbar>
-  <div class="top-section">
-
-    <!-- <div class="video-section">
-      <img src="https://loremflickr.com/600/350" />
-    </div> -->
-    <app-video-preview (vPlayerLoad)="onPlayerLoad($event)"></app-video-preview>
-    <div class="timeline-cont">
-      <app-timeline></app-timeline>
-    </div>
+<mat-toolbar color="primary">
+  <span>Subtitle Maker</span>
+  <span class="auto-filler"></span>
+  <mat-icon>menu</mat-icon>
+</mat-toolbar>
+<div class="top-section">
+  <app-video-preview (vPlayerLoad)="onPlayerLoad($event)"></app-video-preview>
+  <div class="timeline-cont">
+    <app-timeline></app-timeline>
   </div>
-  <div class="sub-lists">
-    <app-sub-list [sampleListId]="1" (scroll)="scrollOtherList($event)"></app-sub-list>
-    <app-sub-list [sampleListId]="2" (scroll)="scrollOtherList($event)"></app-sub-list>
-  </div>
+</div>
+<div class="sub-lists">
+  <app-sub-list [sampleListId]="1" (scroll)="scrollOtherList($event)"></app-sub-list>
+  <app-sub-list [sampleListId]="2" (scroll)="scrollOtherList($event)"></app-sub-list>
 </div>

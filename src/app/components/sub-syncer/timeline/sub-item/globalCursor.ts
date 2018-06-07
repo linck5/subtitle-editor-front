@@ -5,7 +5,15 @@ export namespace GlobalCursor {
     export function setCursor(cursorType:string) {
         if(!div)
             initDiv();
-        div.style.cursor = cursorType;
+
+        let cursorStyles = ""
+
+        if(cursorType == "grabbing")
+            cursorStyles+= `cursor: -webkit-${cursorType};`
+        
+        cursorStyles += `cursor: ${cursorType};`
+        
+        div.style.cssText += ';' + cursorStyles;
     }
 
     export function disable() {
