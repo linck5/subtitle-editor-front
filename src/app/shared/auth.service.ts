@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from './api.service';
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators'
 
 @Injectable()
 export class AuthService {
@@ -26,13 +27,10 @@ export class AuthService {
   }
 
   login(username: string, password:string):Observable<any> {
-    const postObservable = this.apiService.post('auth/authenticate', {
-      username, password
-    });
-    postObservable.subscribe(
-      data => this.setToken(data.token)
-    );
-    return postObservable;
+    return this.apiService.post('auth/authenticate', {
+      username: username, password: password
+    })
+    .pipe( tap(data => this.setToken(data.token)));
   }
 
   logout(): void {
