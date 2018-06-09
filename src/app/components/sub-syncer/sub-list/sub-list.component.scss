@@ -4,25 +4,19 @@
     flex-flow: column;
     align-items: flex-start;
 }
-table {
-    width: 100%;
+mat-header-cell{
+    padding: 5px 15px;
 }
-th.mat-header-cell{
-    padding: 5px 20px;
-}
-td.mat-cell {
-    padding: 20px;
+mat-cell {
+    padding: 8px 15px;
 }
 :host {
-    // width: 50%;
-    overflow: auto;
+    display:flex;
+    flex-direction: column;
 }
 
 .mat-header-row {
-    position: sticky;
-    top: 0;
     background: white;
-    z-index: 1;
 }
 
 textarea {
@@ -32,4 +26,25 @@ textarea {
     border: none;
     display:inline-block;
     vertical-align:middle;
+}
+
+.real-table {
+    flex: 1 1 100%;
+    overflow: auto;
+}
+mat-cell, .mat-header-cell {
+    flex: 0;
+}
+.mat-column-subId {
+    word-break: break-all;
+    min-width:50px;
+}
+.mat-column-subTime{
+    min-width:100px;
+}
+.mat-column-subPosition{
+    min-width:120px;
+}
+.mat-column-subText{
+    flex: 1;
 }

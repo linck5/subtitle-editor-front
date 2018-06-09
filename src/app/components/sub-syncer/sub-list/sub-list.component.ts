@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Subtitle, Position } from '../subtitle';
+import { MatTableDataSource } from '@angular/material';
 
 const positions = Object.keys(Position);
 
@@ -12,6 +13,8 @@ export class SubListComponent implements OnInit {
 
   @Input()
   sampleListId:number
+
+  emptyDataSource = new MatTableDataSource<Element>(null);
 
   columnsToDisplay = ["subId","subTime","subPosition","subText"]
 
