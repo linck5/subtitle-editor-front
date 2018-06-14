@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl(this.returnUrl);
         },
         (err: HttpErrorResponse) => {
-          if(err.error.code == 'authDenied'){
+          if(err.status == 403){
             this.error = "Incorrect username or password."
           }
         }
