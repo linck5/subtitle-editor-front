@@ -110,7 +110,7 @@ export class Test1Component implements OnInit {
 
     console.log("calling test");
 
-    this.test();
+    //this.test();
 
 
   }
