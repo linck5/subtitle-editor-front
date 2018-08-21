@@ -30,6 +30,7 @@
     "passport-jwt": "^3.0.1",
     "reflect-metadata": "^0.1.10",
     "rxjs": "^6.2.2",
+    "vis": "^4.21.0",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
@@ -47,6 +48,7 @@
     "@types/node": "^10.5.7",
     "@types/passport-jwt": "^3.0.0",
     "@types/video.js": "^6.2.4",
+    "@types/vis": "^4.21.6",
     "codelyzer": "^4.3.0",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",

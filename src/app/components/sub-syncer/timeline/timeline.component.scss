@@ -1,54 +1,84 @@
-:host{
+app-timeline{
     width:100%;
     height:100%;
     display: flex;
-    position: relative;
+    // position: relative;
 }
 
-.timeline-cont {
+#timeline {
     width:100%;
-    height:100%;
-    overflow:hidden;
-    overflow-x:auto;
-    position: relative;
 }
 
-.timeline {
-    height:100%;
-    // width:3000px;
-    position:absolute;
+.vis-panel.vis-left {
+    display: none;
+}
+
+//Guide lines
+.vis-time-axis .vis-grid.vis-minor {
+    border-color: rgba(#e5e5e5,0.4)
+}
+
+// Structure:
+
+// vis-panel vis-center
+//  vis-content
+//   vis-itemset
+//    vis-background
+//     vis-group
+//     vis-group (group 1)
+//     vis-group (group 2)
+//    vis-foreground
+//     vis-group (group 1)
+//      (vis-item)
+//     vis-group (group 2)
+//      (vis-item)
+
+    
+.vis-content {
+    left: 0 !important;
+    top:0 !important;
+    height: 100% !important;
+}
+
+.vis-itemset {
+    height: 100% !important;
+}
+
+.vis-group {
+    height: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.vis-item {
+    top: inherit !important;
+    height:60px;
+    background: rgba(grey,.1);
+    border: 2px solid black;
+    border-radius: 5px !important;
+    font-family: 'Noto Sans CJK JP';
+}
+
+.jp-group .vis-item{
+    border-color: rgba(255, 132, 101, 0.2);
+}
+
+.en-group .vis-item{
+    border-color: rgba(80, 80, 253, 0.5);
+}
+
+.vis-item-overflow {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-flow: column;
-    left: 0;
+    text-align: center;
 }
 
-.timeline-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
+.vis-item-content {
+    left:unset !important;
 }
 
-.center-cont {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    align-content: center;
-    z-index: -99;
-}
 
-.horizontal-divider {
-    width:100%;
-    height:3px;
-    background: rgb(224, 224, 224);
-}
+//     vis-group (group 2)
+//      (vis-item)
+
