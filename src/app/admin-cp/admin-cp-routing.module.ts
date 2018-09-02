@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 //import { LoginComponent } from './components/login/login.component';
 
 import { UserMainComponent } from './components/users/user-main/user-main.component';
-import { BranchMainComponent } from './components/branches/branch-main/branch-main.component';
+import { NodeMainComponent } from './components/nodes/node-main/node-main.component';
 import { SubtitleMainComponent } from './components/subtitles/subtitle-main/subtitle-main.component';
 import { VideoMainComponent } from './components/videos/video-main/video-main.component';
 import { AdmCpNotFoundComponent } from './components/adm-cp-not-found/adm-cp-not-found.component';
@@ -18,7 +18,7 @@ import { Test1Component } from './components/test1/test1.component';
 const adminCpRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'branches',
+    redirectTo: 'nodes',
     pathMatch: 'full'
   },
 
@@ -31,8 +31,8 @@ const adminCpRoutes: Routes = [
         component: UserMainComponent
       },
       {
-        path: 'branches',
-        component: BranchMainComponent
+        path: 'nodes',
+        component: NodeMainComponent
       },
       {
         path: 'subtitles',

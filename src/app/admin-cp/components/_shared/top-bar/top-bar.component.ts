@@ -9,7 +9,7 @@ export class TopBarComponent implements OnInit {
 
   public navLinks:Object[] = [
     {path: "users", label: "Users"},
-    {path: "branches", label: "Branches"},
+    {path: "nodes", label: "Nodes"},
     {path: "subtitles", label: "Subtitles"},
     {path: "videos", label: "Videos"}
   ];

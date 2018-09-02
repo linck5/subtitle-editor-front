@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-branch-main',
-  templateUrl: './branch-main.component.html',
+  selector: 'app-node-main',
+  templateUrl: './node-main.component.html',
   styleUrls: [
-    './branch-main.component.scss',
+    './node-main.component.scss',
     '../../../admin-cp.component.scss'
   ]
 })
-export class BranchMainComponent implements OnInit {
+export class NodeMainComponent implements OnInit {
 
   constructor() { }
 

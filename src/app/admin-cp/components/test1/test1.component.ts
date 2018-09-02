@@ -40,38 +40,38 @@ export class Test1Component implements OnInit {
       }).toPromise();
 
 
-      let branch1t1 = await api.post("branches", {
+      let node1t1 = await api.post("nodes", {
         creator_id: user._id,
         tree_id: tree1._id
       }).toPromise();
 
-      let commit1b1t1 = await api.post("commits", {
+      let commit1n1t1 = await api.post("commits", {
         description: "",
-        branch_id: branch1t1._id
+        node_id: node1t1._id
       }).toPromise();
 
       let change1c1b1t1 = await api.post("changes", {
         line_ids: [5],
         user_id: user._id,
-        commit_id: commit1b1t1._id,
-        branch_id: branch1t1._id,
+        commit_id: commit1n1t1._id,
+        node_id: node1t1._id,
         type: "EDIT",
         data: {
           text: "普通な漢字"
         }
       }).toPromise();
 
-      let branch2t1 = await api.post("branches", {
+      let node2t1 = await api.post("nodes", {
         creator_id: user._id,
         tree_id: tree1._id
       }).toPromise();
 
       let commit1b2t1 = await api.post("commits", {
         description: "",
-        branch_id: branch2t1._id
+        node_id: node2t1._id
       }).toPromise();
 
-      let change1c1b2t1 = await api.post("changes", {
+      let change1c1n2t1 = await api.post("changes", {
         line_ids: [
           1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,
           20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,
@@ -79,7 +79,7 @@ export class Test1Component implements OnInit {
         ],
         user_id: user._id,
         commit_id: commit1b2t1._id,
-        branch_id: branch2t1._id,
+        node_id: node2t1._id,
         type: "TIME_SHIFT",
         data: {
           timeShift: -22
@@ -91,11 +91,11 @@ export class Test1Component implements OnInit {
         done: true
       }).toPromise();
 
-      await api.patch("branch/" + branch2t1._id, {
+      await api.patch("node/" + node2t1._id, {
         status: "FINISHED"
       }).toPromise();
 
-      await api.patch("branch/" + branch2t1._id, {
+      await api.patch("node/" + node2t1._id, {
         status: "APPROVED"
       }).toPromise();
 
