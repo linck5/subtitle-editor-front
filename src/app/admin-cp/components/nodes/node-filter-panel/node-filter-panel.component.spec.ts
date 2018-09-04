@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BranchDetailsComponent } from './branch-details.component';
+import { NodeFilterPanelComponent } from './node-filter-panel.component';
 
-describe('BranchDetailsComponent', () => {
-  let component: BranchDetailsComponent;
-  let fixture: ComponentFixture<BranchDetailsComponent>;
+describe('NodeFilterPanelComponent', () => {
+  let component: NodeFilterPanelComponent;
+  let fixture: ComponentFixture<NodeFilterPanelComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BranchDetailsComponent ]
+      declarations: [ NodeFilterPanelComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BranchDetailsComponent);
+    fixture = TestBed.createComponent(NodeFilterPanelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

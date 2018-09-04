@@ -12,13 +12,13 @@ import { Test1Component } from './components/test1/test1.component';
 //_shared
 import { TopBarComponent } from './components/_shared/top-bar/top-bar.component';
 import { FilterOrderByComponent } from './components/_shared/filter-order-by/filter-order-by.component';
-//branches
-import { BranchItemComponent } from './components/branches/branch-item/branch-item.component';
-import { BranchItemColaboratorListComponent } from './components/branches/branch-item-colaborator-list/branch-item-colaborator-list.component';
-import { BranchItemColaboratorItemComponent } from './components/branches/branch-item-colaborator-item/branch-item-colaborator-item.component';
-import { BranchListComponent } from './components/branches/branch-list/branch-list.component';
-import { BranchFilterPanelComponent } from './components/branches/branch-filter-panel/branch-filter-panel.component';
-import { BranchDetailsComponent } from './components/branches/branch-details/branch-details.component';
+//nodes
+import { NodeItemComponent } from './components/nodes/node-item/node-item.component';
+import { NodeItemColaboratorListComponent } from './components/nodes/node-item-colaborator-list/node-item-colaborator-list.component';
+import { NodeItemColaboratorItemComponent } from './components/nodes/node-item-colaborator-item/node-item-colaborator-item.component';
+import { NodeListComponent } from './components/nodes/node-list/node-list.component';
+import { NodeFilterPanelComponent } from './components/nodes/node-filter-panel/node-filter-panel.component';
+import { NodeDetailsComponent } from './components/nodes/node-details/node-details.component';
 //subtitles
 import { SubtitleItemComponent } from './components/subtitles/subtitle-item/subtitle-item.component';
 import { SubtitleListComponent } from './components/subtitles/subtitle-list/subtitle-list.component';
@@ -32,7 +32,7 @@ import { VideoItemComponent } from './components/videos/video-item/video-item.co
 import { VideoListComponent } from './components/videos/video-list/video-list.component';
 import { VideoFilterPanelComponent } from './components/videos/video-filter-panel/video-filter-panel.component';
 import { AdminCpComponent } from './admin-cp.component';
-import { BranchMainComponent } from './components/branches/branch-main/branch-main.component';
+import { NodeMainComponent } from './components/nodes/node-main/node-main.component';
 import { UserMainComponent } from './components/users/user-main/user-main.component';
 import { SubtitleMainComponent } from './components/subtitles/subtitle-main/subtitle-main.component';
 import { VideoMainComponent } from './components/videos/video-main/video-main.component';
@@ -52,21 +52,21 @@ import { AdmCpNotFoundComponent } from './components/adm-cp-not-found/adm-cp-not
     UserListComponent,
     TopBarComponent,
     UserFilterPanelComponent,
-    BranchItemComponent,
-    BranchItemColaboratorListComponent,
-    BranchItemColaboratorItemComponent,
+    NodeItemComponent,
+    NodeItemColaboratorListComponent,
+    NodeItemColaboratorItemComponent,
     FilterOrderByComponent,
-    BranchListComponent,
+    NodeListComponent,
     SubtitleItemComponent,
     SubtitleListComponent,
     VideoItemComponent,
     VideoListComponent,
-    BranchFilterPanelComponent,
+    NodeFilterPanelComponent,
     VideoFilterPanelComponent,
     SubtitleFilterPanelComponent,
-    BranchDetailsComponent,
+    NodeDetailsComponent,
     AdminCpComponent,
-    BranchMainComponent,
+    NodeMainComponent,
     UserMainComponent,
     SubtitleMainComponent,
     VideoMainComponent,
