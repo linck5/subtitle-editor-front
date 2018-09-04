@@ -6,10 +6,10 @@
 <div class="top-section">
   <app-video-preview (vPlayerLoad)="onPlayerLoad($event)"></app-video-preview>
   <div class="timeline-cont">
-    <app-timeline></app-timeline>
+    <app-timeline [subJp]="subtitleJp" [subEn]=subtitleEn></app-timeline>
   </div>
 </div>
 <div class="sub-lists">
-  <app-sub-list [sampleListId]="1" (scroll)="scrollOtherList($event)"></app-sub-list>
-  <app-sub-list [sampleListId]="2" (scroll)="scrollOtherList($event)"></app-sub-list>
+  <app-sub-list [subtitle]="subtitleJp" (scroll)="scrollOtherList($event)"></app-sub-list>
+  <app-sub-list [subtitle]="subtitleEn" (scroll)="scrollOtherList($event)"></app-sub-list>
 </div>

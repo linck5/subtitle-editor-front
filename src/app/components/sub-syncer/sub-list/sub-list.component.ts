@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Subtitle, Position } from '../subtitle';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Subtitle, SubtitleLine, Position } from '../subtitle';
 import { MatTableDataSource } from '@angular/material';
+import { SubtitleService } from '../../../shared/subtitle.service';
 
 const positions = Object.keys(Position);
 
@@ -12,22 +13,33 @@ const positions = Object.keys(Position);
 export class SubListComponent implements OnInit {
 
   @Input()
-  sampleListId:number
+  subtitle:Subtitle
 
   emptyDataSource = new MatTableDataSource<Element>(null);
 
   columnsToDisplay = ["subId","subTime","subPosition","subText"]
 
-  subList: Array<Subtitle> = []
+  subList: Array<SubtitleLine> = []
 
-  constructor() { }
+  constructor(private subService: SubtitleService) { }
 
   ngOnInit() {
-    this.genList(this.sampleListId);
   }
 
-  private genList(listId:number){
+  ngOnChanges(changes: SimpleChanges) {
+    // only run when property "data" changed
+    if (changes['subtitle'] && this.subtitle) {
+      console.log('sublist: got subtitle as input, first line: ',this.subtitle.lines[0].text)
 
+      //loading only the first 15 lines because it lags af
+      this.subList = this.subtitle.lines.slice(0,15);
+    }
+}
+
+
+  //generates dummy sublines to display
+  /*
+  private genList(listId:number){
     let shortSample:string;
     let longSample:string;
 
@@ -43,13 +55,14 @@ export class SubListComponent implements OnInit {
     }
 
     for (let i = 0; i < 10; i++) {
-      this.subList.push(new Subtitle(1,200,300, shortSample))
+      this.subList.push(new SubtitleLine(1,200,300, shortSample))
 
       if(Math.floor((Math.random() * 5) + 1) === 1)
-        this.subList.push(new Subtitle(1,200,300, longSample))
+        this.subList.push(new SubtitleLine(1,200,300, longSample))
     }
-  }
+  }*/
 
+  //for template
   private getPositions() {
     return positions
   }

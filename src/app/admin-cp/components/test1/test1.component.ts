@@ -23,9 +23,9 @@ export class Test1Component implements OnInit {
 
     api.logApi = true;
 
-    let video = await api.get("video/5b23eb8c429a142998c1c654").toPromise();
-    let subtitle = await api.get("subtitle/5b4e393ffa63a06878e26a9d").toPromise();
-    let user = await api.get("user/5b19c4c5376a4848c03b0747").toPromise() //admin3
+    let video = await api.get<any>("video/5b23eb8c429a142998c1c654").toPromise();
+    let subtitle = await api.get<any>("subtitle/5b4e393ffa63a06878e26a9d").toPromise();
+    let user = await api.get<any>("user/5b19c4c5376a4848c03b0747").toPromise() //admin3
 
 
     if(video && subtitle && user){

@@ -1,8 +1,10 @@
-import { Component, ElementRef, ViewEncapsulation, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Component, ElementRef, ViewEncapsulation, OnInit, ViewChild, HostListener, Input, SimpleChanges } from '@angular/core';
 import * as Vis from "vis";
 import { TimelineTimeAxisScaleType, TimelineItem, DataSet } from "vis";
 import { time } from "./../../../shared/time";
 import { Player } from 'video.js';
+import { SubtitleService } from "./../../../shared/subtitle.service";
+import { Subtitle } from '../subtitle';
 
 @Component({
   selector: 'app-timeline',
@@ -11,6 +13,11 @@ import { Player } from 'video.js';
   encapsulation: ViewEncapsulation.None
 })
 export class TimelineComponent implements OnInit {
+
+  @Input()
+  subEn:Subtitle
+  @Input()
+  subJp:Subtitle
 
   title = 'app';
   timeline;
@@ -25,11 +32,12 @@ export class TimelineComponent implements OnInit {
   noSnapKey = 'Control'
   noSnapKeyPressed:boolean = false;
 
-  constructor(private renderer:ElementRef) {
+  constructor(private renderer:ElementRef, private subService:SubtitleService) {
     
   }
 
-  ngOnInit() {
+  ngOnInit() {  
+    
 
     let groups = [
       {
@@ -46,13 +54,13 @@ export class TimelineComponent implements OnInit {
 
     // Create a DataSet (allows two way data-binding)
     this.items = new DataSet([
-      {id: 1, content: 'item 1 jp', start: time.sec(10), end:time.sec(12), group: 1},
-      {id: 2, content: 'item 1 jp', start: time.sec(5), end:time.sec(7), group: 1},
-      {id: 3, content: 'item en', start: time.sec(10), end:time.sec(12), group: 2},
-      {id: 4, content: 'item 2 en', start: time.sec(60), end:time.sec(120), group: 2},
-      {id: 5, content: 'item 32 jp', start: time.sec(0), end: time.sec(2), group: 2},
-      {id: 6, content: 'item 32 jp', start: time.sec(5), end: time.sec(7), group: 2},
-      {id: 7, content: 'dec', start: time.sec(8), end: time.sec(9.5), group: 1},
+      // {id: 1, content: 'item 1 jp', start: time.sec(10), end:time.sec(12), group: 1},
+      // {id: 2, content: 'item 1 jp', start: time.sec(5), end:time.sec(7), group: 1},
+      // {id: 3, content: 'item en', start: time.sec(10), end:time.sec(12), group: 2},
+      // {id: 4, content: 'item 2 en', start: time.sec(60), end:time.sec(120), group: 2},
+      // {id: 5, content: 'item 32 jp', start: time.sec(0), end: time.sec(2), group: 2},
+      // {id: 6, content: 'item 32 jp', start: time.sec(5), end: time.sec(7), group: 2},
+      // {id: 7, content: 'dec', start: time.sec(8), end: time.sec(9.5), group: 1},
       // {id: 3, content: 'item 3', start: '2013-04-18'},
       // {id: 4, content: 'item 4', start: '2013-04-16', end: '2013-04-19'},
       // {id: 5, content: 'item 5', start: '2013-04-25'},
@@ -110,9 +118,31 @@ export class TimelineComponent implements OnInit {
     // timeline.setOptions({max: time.min(5)})
 
     this.timeline.on('select', this.onSelect.bind(this))
+    
+    
+  }
 
-    
-    
+  ngOnChanges(changes: SimpleChanges) {
+      // only run when property "data" changed
+      if (changes['subEn'] && this.subEn) {
+        console.log('timeline: got subtitle as input, first line en sub: ',this.subEn.lines[0].text)
+        let itemArr = []
+        // {id: 1, content: 'item 1 jp', start: time.sec(10), end:time.sec(12), group: 1},
+        this.subEn.lines.forEach(line => {
+          itemArr.push({content: line.text, start: line.startTime, end: line.endTime, group:2})          
+        });
+        this.items.add(itemArr)
+        // this.timeline.setItems(new DataSet([{id: 1, content: 'item 1 jp', start: time.sec(10), end:time.sec(12), group: 1}]))
+      }
+      if (changes['subJp'] && this.subJp) {
+        console.log('timeline: got subtitle as input, first line jp sub: ',this.subJp.lines[0].text)
+        let itemArr = []
+        // {id: 1, content: 'item 1 jp', start: time.sec(10), end:time.sec(12), group: 1},
+        this.subEn.lines.forEach(line => {
+          itemArr.push({content: line.text, start: line.startTime, end: line.endTime, group:1})          
+        });
+        this.items.add(itemArr)
+      }
   }
 
   onSelect(properties) {
@@ -196,10 +226,12 @@ export class TimelineComponent implements OnInit {
   }
 
   onPlayerLoad(player:Player){
+    //This locks the timeline to the length of the video
     player.on('loadedmetadata', () =>{
       console.log("duration: "+player.duration()+" lol wtf did i do")
-      // this.timelineWidth = player.duration() * 200
-      this.timeline.setOptions({max: time.sec(player.duration()),})
+
+      //Temporarily disabling this so that I can see more items
+      // this.timeline.setOptions({max: time.sec(player.duration()),})
     })
   }
 }

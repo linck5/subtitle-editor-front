@@ -2,6 +2,8 @@ import { Component, OnInit, ViewEncapsulation, ViewChildren, QueryList, ElementR
 import { SubListComponent } from '../sub-list/sub-list.component';
 import { Player } from 'video.js';
 import { TimelineComponent } from '../timeline/timeline.component';
+import { SubtitleService } from '../../../shared/subtitle.service';
+import { Subtitle } from '../subtitle';
 
 @Component({
   selector: 'app-sub-syncer',
@@ -11,6 +13,9 @@ import { TimelineComponent } from '../timeline/timeline.component';
 })
 export class SubSyncerComponent implements OnInit {
 
+  subtitleEn:Subtitle
+  subtitleJp:Subtitle
+
   @ViewChildren(SubListComponent, { read:ElementRef })
   sublistComponents: QueryList<ElementRef>;
 
@@ -19,9 +24,15 @@ export class SubSyncerComponent implements OnInit {
 
   ignoreScroll:boolean = false;
 
-  constructor() { }
+  constructor(private subService:SubtitleService) { }
 
   ngOnInit() {
+
+    this.subService.getSampleSubtitle()
+      .subscribe(subtitle => {
+        console.log('getting subtitle from main window comp')
+        this.subtitleEn = this.subtitleJp = subtitle
+      })
   }
 
   scrollOtherList(event:Event){

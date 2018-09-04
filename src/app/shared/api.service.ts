@@ -11,21 +11,25 @@ export class ApiService {
   private baseUrl: string = environment.apiUrl;
   private servicePipe: OperatorFunction<any, any>[] = [
     catchError(this.handleError),
-    tap(res => { if(this.logApi) console.log("> Res", res) })
+    tap(res => { if(this.logApi) {console.log("> Res", res)} })
   ];
 
-  public logApi: boolean = false;
+  public logApi: boolean = true;
 
   constructor(private http: HttpClient) {}
 
-  get(url: string): Observable<any> {
-    if(this.logApi) this.logRequest("GET", url);
-    return this.http.get<any>(this.getFullURL(url)).pipe(...this.servicePipe);
+  get<T>(url: string): Observable<T> {
+    return this.http.get<T>(this.getFullURL(url))
+      .pipe(
+        tap(() =>{if(this.logApi) this.logRequest("GET", url)}),
+        ...this.servicePipe);
   }
 
   post(url: string, body: Object): Observable<any> {
-    if(this.logApi) this.logRequest("POST", url, body);
-    return this.http.post<any>(this.getFullURL(url), body).pipe(...this.servicePipe);
+    return this.http.post<any>(this.getFullURL(url), body)
+      .pipe(
+        tap(() =>{if(this.logApi) this.logRequest("POST", url, body)}),
+        ...this.servicePipe);
   }
 
   put(url: string, body: Object): Observable<any> {
