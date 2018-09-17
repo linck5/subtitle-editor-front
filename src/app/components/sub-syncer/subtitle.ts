@@ -2,7 +2,6 @@ export class Subtitle {
     _id:number
 
     constructor(
-        public lang:string,
         public lines:Array<SubtitleLine>
     ) { }
 }

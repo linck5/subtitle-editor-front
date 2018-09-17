@@ -1,23 +1,25 @@
-import { Component, ElementRef, ViewEncapsulation, OnInit, ViewChild, HostListener, Input, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, ViewEncapsulation, OnInit, ViewChild, HostListener, Input, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import * as Vis from "vis";
 import { TimelineTimeAxisScaleType, TimelineItem, DataSet } from "vis";
 import { time } from "./../../../shared/time";
 import { Player } from 'video.js';
-import { SubtitleService } from "./../../../shared/subtitle.service";
+import { SubtitleService, SubtitleWrapper } from "./../../../shared/subtitle.service";
 import { Subtitle } from '../subtitle';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-timeline',
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TimelineComponent implements OnInit {
 
   @Input()
-  subEn:Subtitle
+  subEn:SubtitleWrapper
   @Input()
-  subJp:Subtitle
+  subJp:SubtitleWrapper
 
   title = 'app';
   timeline;
@@ -61,10 +63,6 @@ export class TimelineComponent implements OnInit {
       // {id: 5, content: 'item 32 jp', start: time.sec(0), end: time.sec(2), group: 2},
       // {id: 6, content: 'item 32 jp', start: time.sec(5), end: time.sec(7), group: 2},
       // {id: 7, content: 'dec', start: time.sec(8), end: time.sec(9.5), group: 1},
-      // {id: 3, content: 'item 3', start: '2013-04-18'},
-      // {id: 4, content: 'item 4', start: '2013-04-16', end: '2013-04-19'},
-      // {id: 5, content: 'item 5', start: '2013-04-25'},
-      // {id: 6, content: 'item 6', start: '2013-04-27'}
     ]);
 
     let timeAxisScale:TimelineTimeAxisScaleType = 'second'
@@ -124,24 +122,26 @@ export class TimelineComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
       // only run when property "data" changed
-      if (changes['subEn'] && this.subEn) {
-        console.log('timeline: got subtitle as input, first line en sub: ',this.subEn.lines[0].text)
+      var addLinesToTimeline = (subtitle: Subtitle, group: number) => {
         let itemArr = []
-        // {id: 1, content: 'item 1 jp', start: time.sec(10), end:time.sec(12), group: 1},
-        this.subEn.lines.forEach(line => {
-          itemArr.push({content: line.text, start: line.startTime, end: line.endTime, group:2})          
+        subtitle.lines.forEach(line => {
+          itemArr.push({content: line.text, start: new Date(line.startTime), end: new Date(line.endTime), group:group})          
         });
         this.items.add(itemArr)
-        // this.timeline.setItems(new DataSet([{id: 1, content: 'item 1 jp', start: time.sec(10), end:time.sec(12), group: 1}]))
+      }
+
+      if (changes['subEn'] && this.subEn) {
+
+        this.subEn.subtitle.pipe(first()).subscribe(sub =>{
+          console.log('timeline: got subtitle as input, first line en sub: ', sub.lines[0].text)
+          addLinesToTimeline(sub, 2)
+        })
       }
       if (changes['subJp'] && this.subJp) {
-        console.log('timeline: got subtitle as input, first line jp sub: ',this.subJp.lines[0].text)
-        let itemArr = []
-        // {id: 1, content: 'item 1 jp', start: time.sec(10), end:time.sec(12), group: 1},
-        this.subEn.lines.forEach(line => {
-          itemArr.push({content: line.text, start: line.startTime, end: line.endTime, group:1})          
-        });
-        this.items.add(itemArr)
+        this.subJp.subtitle.pipe(first()).subscribe(sub =>{
+          console.log('timeline: got subtitle as input, first line jp sub: ', sub.lines[0].text)
+          addLinesToTimeline( sub, 1)
+        })
       }
   }
 

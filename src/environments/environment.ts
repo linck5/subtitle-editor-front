@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3004/api'
+  apiUrl: 'http://localhost:3004/api' //this is the real API
+  // apiUrl: 'http://localhost:3004' // this is the fake json api 
 };

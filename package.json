@@ -7,7 +7,8 @@
   },
   "license": "MIT",
   "scripts": {
-    "start": "ng serve --proxy-config proxy.conf.json"
+    "start": "ng serve --proxy-config proxy.conf.json",
+    "dev": "parallelshell \"ng serve\" \"json-server --watch testdb.json --port 3004\""
   },
   "dependencies": {
     "@angular-devkit/core": "^0.5.7",
@@ -18,7 +19,7 @@
     "@angular/core": "^6.0.0",
     "@angular/forms": "^6.0.0",
     "@angular/http": "^6.0.0",
-    "@angular/material": "^6.0.1",
+    "@angular/material": "^6.4.7",
     "@angular/platform-browser": "^6.0.0",
     "@angular/platform-browser-dynamic": "^6.0.0",
     "@angular/router": "^6.0.0",
@@ -58,6 +59,7 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "parallelshell": "^3.0.2",
     "protractor": "~5.1.2",
     "ts-loader": "^2.3.7",
     "tslint": "~5.7.0",

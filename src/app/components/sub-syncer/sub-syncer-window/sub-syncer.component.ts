@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewEncapsulation, ViewChildren, QueryList, ElementRef, ViewChild } from '@angular/core';
 import { SubListComponent } from '../sub-list/sub-list.component';
 import { Player } from 'video.js';
+import { flatMap, tap } from 'rxjs/operators';
 import { TimelineComponent } from '../timeline/timeline.component';
-import { SubtitleService } from '../../../shared/subtitle.service';
+import { SubtitleService, SubtitleWrapper } from '../../../shared/subtitle.service';
 import { Subtitle } from '../subtitle';
 
 @Component({
@@ -13,8 +14,8 @@ import { Subtitle } from '../subtitle';
 })
 export class SubSyncerComponent implements OnInit {
 
-  subtitleEn:Subtitle
-  subtitleJp:Subtitle
+  subtitleEn:SubtitleWrapper
+  subtitleJp:SubtitleWrapper
 
   @ViewChildren(SubListComponent, { read:ElementRef })
   sublistComponents: QueryList<ElementRef>;
@@ -27,12 +28,10 @@ export class SubSyncerComponent implements OnInit {
   constructor(private subService:SubtitleService) { }
 
   ngOnInit() {
-
-    this.subService.getSampleSubtitle()
-      .subscribe(subtitle => {
-        console.log('getting subtitle from main window comp')
-        this.subtitleEn = this.subtitleJp = subtitle
-      })
+    this.subService.getSubtitle(this.subService.treeExampleEn)
+      .subscribe(sub => this.subtitleEn = sub)
+    this.subService.getSubtitle(this.subService.treeExampleJp)
+      .subscribe(sub => this.subtitleJp = sub)
   }
 
   scrollOtherList(event:Event){
