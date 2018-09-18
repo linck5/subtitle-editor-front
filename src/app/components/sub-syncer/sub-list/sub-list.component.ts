@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Subtitle, SubtitleLine, Position } from '../subtitle';
 import { MatTableDataSource } from '@angular/material';
-import { SubtitleService, SubtitleWrapper } from '../../../shared/subtitle.service';
+import { SubtitleService, SubtitleWrapper, Change, ChangeType } from '../../../shared/subtitle.service';
 import { first } from 'rxjs/operators';
 
 const positions = Object.keys(Position);
@@ -33,7 +33,21 @@ export class SubListComponent implements OnInit {
         this.subList = sub.lines;
         this.cd.detectChanges();
       })
+      this.subtitle.changes.subscribe(this.onChanges.bind(this))
     }
+  }
+
+  onChanges(changes:Array<Change>){
+    for (let i = 0; i < changes.length; i++) {
+      console.log('found a change: ',changes[i].line.text)  
+      
+      switch(changes[i].type){
+        case ChangeType.Delete:
+          this.subList = this.subList.filter(line => line.id !== changes[i].line.id)
+          break;
+      }
+    }
+    this.cd.detectChanges();
   }
 
   //for template. no delete pls

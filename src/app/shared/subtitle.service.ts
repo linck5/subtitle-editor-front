@@ -66,8 +66,9 @@ export class SubtitleService {
 
 export class SubtitleWrapper {
 
-  private subtitleSource = new BehaviorSubject(null)
+  private subtitleSource:BehaviorSubject<Subtitle> = new BehaviorSubject(null)
   subtitle = this.subtitleSource.asObservable().pipe(filter(sub=> sub!=null))
+
   changes = new Subject<Array<Change>>()
 
   constructor(public id:string, private api:ApiService) {
@@ -76,6 +77,11 @@ export class SubtitleWrapper {
       publishReplay(),
       refCount(),
     ).subscribe(sub => this.subtitleSource.next(cloneObject(sub)))
+
+    this.subtitle.subscribe(sub => {
+      console.log('sub updated: lines:')
+      console.log(sub.lines)
+    })
   }
 
   //Updates the source, and notifies observers of changes
@@ -112,6 +118,21 @@ export class SubtitleWrapper {
     this.subtitleSource.next(newObj)
     //Pushing changes
     this.changes.next(lines.map(line => new Change(type, line)))
+  }
+
+  //returns the updated version of the subtitle
+  getSubtitle(): Subtitle {
+    return this.subtitleSource.getValue()
+  }
+
+  //returns an appropriate id for a new subtitle line
+  getNewId(): number {
+    let lines = this.subtitleSource.getValue().lines
+
+    for (let i = 0;;i++) {
+      if(!lines.find(line => line.id === i))
+        return i
+    }
   }
 }
 

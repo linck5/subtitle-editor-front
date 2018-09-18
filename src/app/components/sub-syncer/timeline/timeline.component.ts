@@ -3,8 +3,8 @@ import * as Vis from "vis";
 import { TimelineTimeAxisScaleType, TimelineItem, DataSet } from "vis";
 import { time } from "./../../../shared/time";
 import { Player } from 'video.js';
-import { SubtitleService, SubtitleWrapper } from "./../../../shared/subtitle.service";
-import { Subtitle } from '../subtitle';
+import { SubtitleService, SubtitleWrapper, ChangeType, Change } from "./../../../shared/subtitle.service";
+import { Subtitle, SubtitleLine } from '../subtitle';
 import { first } from 'rxjs/operators';
 
 @Component({
@@ -34,36 +34,21 @@ export class TimelineComponent implements OnInit {
   noSnapKey = 'Control'
   noSnapKeyPressed:boolean = false;
 
-  constructor(private renderer:ElementRef, private subService:SubtitleService) {
-    
-  }
+  //I add this number to every item on one of the groups so that all the id's are unique
+  idSeparator = 50000 
+
+  constructor(private renderer:ElementRef, private subService:SubtitleService) {}
 
   ngOnInit() {  
     
 
     let groups = [
-      {
-        id: 1,
-        // content: 'JP Subs',
-        className: 'jp-group'
-      },
-      {
-        id: 2,
-        // content: 'EN Subs',
-        className: 'en-group'
-      }
+      {id: 1,className: 'jp-group'},
+      {id: 2,className: 'en-group'}
     ]
 
     // Create a DataSet (allows two way data-binding)
-    this.items = new DataSet([
-      // {id: 1, content: 'item 1 jp', start: time.sec(10), end:time.sec(12), group: 1},
-      // {id: 2, content: 'item 1 jp', start: time.sec(5), end:time.sec(7), group: 1},
-      // {id: 3, content: 'item en', start: time.sec(10), end:time.sec(12), group: 2},
-      // {id: 4, content: 'item 2 en', start: time.sec(60), end:time.sec(120), group: 2},
-      // {id: 5, content: 'item 32 jp', start: time.sec(0), end: time.sec(2), group: 2},
-      // {id: 6, content: 'item 32 jp', start: time.sec(5), end: time.sec(7), group: 2},
-      // {id: 7, content: 'dec', start: time.sec(8), end: time.sec(9.5), group: 1},
-    ]);
+    this.items = new DataSet([]);
 
     let timeAxisScale:TimelineTimeAxisScaleType = 'second'
 
@@ -82,8 +67,11 @@ export class TimelineComponent implements OnInit {
       stack: false,
       showMajorLabels: false,
       // multiselect: true, //NOT YET
+      onAdd: this.onAdd.bind(this),
       onMove: this.onMove.bind(this),
       onMoving: this.onMoving.bind(this),
+      onRemove: this.onRemove.bind(this),
+      onUpdate: this.onUpdate.bind(this),
       // horizontalScroll: true,
       // zoomable: false,
       format: {
@@ -125,24 +113,43 @@ export class TimelineComponent implements OnInit {
       var addLinesToTimeline = (subtitle: Subtitle, group: number) => {
         let itemArr = []
         subtitle.lines.forEach(line => {
-          itemArr.push({content: line.text, start: new Date(line.startTime), end: new Date(line.endTime), group:group})          
+          itemArr.push({id:this.getVisId(line.id, group) , content: line.text, start: new Date(line.startTime), end: new Date(line.endTime), group:group})          
         });
         this.items.add(itemArr)
       }
 
       if (changes['subEn'] && this.subEn) {
-
-        this.subEn.subtitle.pipe(first()).subscribe(sub =>{
-          console.log('timeline: got subtitle as input, first line en sub: ', sub.lines[0].text)
-          addLinesToTimeline(sub, 2)
-        })
+        this.subEn.subtitle.pipe(first()).subscribe(sub =>addLinesToTimeline(sub, 2))
+        this.subEn.changes.subscribe(this.onSubChanges(this.subEn, 2))
       }
       if (changes['subJp'] && this.subJp) {
-        this.subJp.subtitle.pipe(first()).subscribe(sub =>{
-          console.log('timeline: got subtitle as input, first line jp sub: ', sub.lines[0].text)
-          addLinesToTimeline( sub, 1)
-        })
+        this.subJp.subtitle.pipe(first()).subscribe(sub =>addLinesToTimeline(sub, 1))
+        this.subJp.changes.subscribe(this.onSubChanges(this.subJp, 1))
       }
+  }
+
+  onSubChanges(sub:SubtitleWrapper, group:number){
+
+    return (changes:Array<Change>) =>  {
+      for (let i = 0; i < changes.length; i++) {
+        const ch = changes[i];
+        switch(ch.type){
+          case ChangeType.Update:
+          case ChangeType.New:
+              this.items.update({
+                id:this.getVisId(ch.line.id, group),
+                content:ch.line.text,
+                start: new Date(ch.line.startTime),
+                end: new Date(ch.line.endTime),
+                group: group
+              })
+            break;
+          case ChangeType.Delete:
+              this.items.remove(this.getVisId(ch.line.id, group))
+            break;
+        }        
+      }
+    }
   }
 
   onSelect(properties) {
@@ -151,18 +158,88 @@ export class TimelineComponent implements OnInit {
 
     this.manipulatedItemProps = {start: new Date(item.start), end: new Date(item.end)}
 
-    l(`select. item: ${item.content}`)
+    l(`select. item: ${item.start}`)
+  }
+
+  onAdd(item:TimelineItem, callback) {
+
+    //Setting an ID to the new line
+    let sub:SubtitleWrapper;
+
+    if(item.group === 1){
+      sub = this.subJp
+    }
+    else {
+      sub = this.subEn
+    }
+
+    item.id = this.getVisId(sub.getNewId(), item.group as number)
+
+    //Setting default values
+    item.content = 'New line';
+    (item.end as Date).setSeconds((item.start as Date).getSeconds() + 1)
+
+    //Updating subtitle
+    sub.update([new SubtitleLine(item.id, (item.start as Date).getMilliseconds(), (item.end as Date).getMilliseconds(), item.content)], ChangeType.New)
+
+    //
+
+    console.log('new sub item: ', item.id, item.content)
+
+    callback(item)
   }
 
   onMove(item:TimelineItem, callback) {
+
+
     this.manipulatedItemProps = {start: item.start, end: item.end}
+
+    let sub:SubtitleWrapper;
+
+    if(item.group === 1){
+      sub = this.subJp
+    }
+    else {
+      sub = this.subEn
+    }
+
+    let line = this.getLine(item, sub.getSubtitle())[0]
+
+    line.startTime = time.getMl(item.start as Date)
+    line.endTime =  time.getMl(item.end as Date)
+
+    //Updating subtitle
+    sub.update([line], ChangeType.Update)
 
     this.items.update(item)
   }
 
-  onMoving(item:TimelineItem, callback){
+  onUpdate(item:TimelineItem, callback) {
 
-    l(`snap key pressed: ${this.noSnapKeyPressed}`)
+
+
+    console.log('this no worky')
+    callback(item)
+  }
+
+  onRemove(item:TimelineItem, callback) {
+
+    //Updating subtitle
+    if(item.group === 1){
+      this.subJp.update(this.getLine(item, this.subJp.getSubtitle()),ChangeType.Delete)
+    }
+    else{
+      this.subEn.update(this.getLine(item, this.subEn.getSubtitle()),ChangeType.Delete)
+    }
+
+    callback(item)
+  }
+
+  getLine(item:TimelineItem, sub:Subtitle):Array<SubtitleLine> {
+    return sub.lines.filter(line => line.id === this.getSubId(item.id, item.group as number))
+  }
+
+  onMoving(item:TimelineItem, callback){
 
     let side:DragMode;
     if(this.noSnapKeyPressed){
@@ -209,6 +286,16 @@ export class TimelineComponent implements OnInit {
     });
     
     callback(item)
+  }
+
+  //Gets sub ID based on vis item ID and group
+  getSubId(visId:Vis.IdType, group:number){
+    return group === 1 ? visId : (visId as number) - this.idSeparator
+  }
+
+  //Gets vis item ID based on group and sub id
+  getVisId(subId:number, group:number) {
+    return group === 1 ? subId : subId + this.idSeparator
   }
 
   @HostListener('window:keydown', ['$event'])
