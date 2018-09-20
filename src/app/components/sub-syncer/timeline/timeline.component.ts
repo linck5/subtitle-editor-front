@@ -6,6 +6,7 @@ import { Player } from 'video.js';
 import { SubtitleService, SubtitleWrapper, ChangeType, Change } from "./../../../shared/subtitle.service";
 import { Subtitle, SubtitleLine } from '../subtitle';
 import { first } from 'rxjs/operators';
+import { SubObserver, updateSubImpl, updateChecker } from '../../../shared/subObserver';
 
 @Component({
   selector: 'app-timeline',
@@ -14,7 +15,7 @@ import { first } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TimelineComponent implements OnInit {
+export class TimelineComponent implements OnInit, SubObserver {
 
   @Input()
   subEn:SubtitleWrapper
@@ -23,6 +24,8 @@ export class TimelineComponent implements OnInit {
 
   title = 'app';
   timeline;
+
+  updateOnNext:boolean = true;
 
   @ViewChild("timeline")
   timelineCont;
@@ -78,7 +81,6 @@ export class TimelineComponent implements OnInit {
         minorLabels: function(date:Date, scale: string, step: number) {
           
           let tim = date.toISOString()
-          // l(`scale: ${scale} step: ${step} isostring: ${tim}`)
 
           let minutes = pad(parseInt(tim.substr(11,2)) * 60 + parseInt(tim.substr(14,2)),2);
           let seconds = pad(parseInt(tim.substr(17,2)),2);
@@ -120,22 +122,22 @@ export class TimelineComponent implements OnInit {
 
       if (changes['subEn'] && this.subEn) {
         this.subEn.subtitle.pipe(first()).subscribe(sub =>addLinesToTimeline(sub, 2))
-        this.subEn.changes.subscribe(this.onSubChanges(this.subEn, 2))
+        this.subEn.changes.subscribe(this.onSubChanges(this.subEn, 2).bind(this))
       }
       if (changes['subJp'] && this.subJp) {
         this.subJp.subtitle.pipe(first()).subscribe(sub =>addLinesToTimeline(sub, 1))
-        this.subJp.changes.subscribe(this.onSubChanges(this.subJp, 1))
+        this.subJp.changes.subscribe(this.onSubChanges(this.subJp, 1).bind(this))
       }
   }
 
   onSubChanges(sub:SubtitleWrapper, group:number){
 
-    return (changes:Array<Change>) =>  {
+    return updateChecker(this,(changes:Array<Change>) =>  {
       for (let i = 0; i < changes.length; i++) {
         const ch = changes[i];
         switch(ch.type){
-          case ChangeType.Update:
           case ChangeType.New:
+          case ChangeType.Update:
               this.items.update({
                 id:this.getVisId(ch.line.id, group),
                 content:ch.line.text,
@@ -149,7 +151,7 @@ export class TimelineComponent implements OnInit {
             break;
         }        
       }
-    }
+    })
   }
 
   onSelect(properties) {
@@ -157,11 +159,11 @@ export class TimelineComponent implements OnInit {
     if(!item) return;
 
     this.manipulatedItemProps = {start: new Date(item.start), end: new Date(item.end)}
-
-    l(`select. item: ${item.start}`)
   }
 
   onAdd(item:TimelineItem, callback) {
+
+    l('on add triggered')
 
     //Setting an ID to the new line
     let sub:SubtitleWrapper;
@@ -173,24 +175,22 @@ export class TimelineComponent implements OnInit {
       sub = this.subEn
     }
 
-    item.id = this.getVisId(sub.getNewId(), item.group as number)
+    let newLineId = sub.getNewId()
+
+    item.id = this.getVisId(newLineId, item.group as number)
 
     //Setting default values
     item.content = 'New line';
-    (item.end as Date).setSeconds((item.start as Date).getSeconds() + 1)
-
-    //Updating subtitle
-    sub.update([new SubtitleLine(item.id, (item.start as Date).getMilliseconds(), (item.end as Date).getMilliseconds(), item.content)], ChangeType.New)
-
-    //
-
-    console.log('new sub item: ', item.id, item.content)
+    item.end = time.sec(time.getSec(item.start as Date) + 1)
+    // (item.end as Date).setSeconds((item.start as Date).getSeconds() + 1)
 
     callback(item)
+
+    //Updating subtitle
+    this.updateSub(sub, [new SubtitleLine(newLineId, time.getMl(item.start as Date), time.getMl(item.end as Date), item.content)], ChangeType.New)
   }
 
   onMove(item:TimelineItem, callback) {
-
 
     this.manipulatedItemProps = {start: item.start, end: item.end}
 
@@ -208,31 +208,30 @@ export class TimelineComponent implements OnInit {
     line.startTime = time.getMl(item.start as Date)
     line.endTime =  time.getMl(item.end as Date)
 
-    //Updating subtitle
-    sub.update([line], ChangeType.Update)
-
     this.items.update(item)
+
+    //Updating subtitle
+    this.updateSub(sub, [line], ChangeType.Update)
   }
 
   onUpdate(item:TimelineItem, callback) {
 
+    l('onupdate triggered')
 
-
-    console.log('this no worky')
     callback(item)
   }
 
   onRemove(item:TimelineItem, callback) {
 
+    callback(item)
+
     //Updating subtitle
     if(item.group === 1){
-      this.subJp.update(this.getLine(item, this.subJp.getSubtitle()),ChangeType.Delete)
+      this.updateSub(this.subJp, this.getLine(item, this.subJp.getSubtitle()),ChangeType.Delete)
     }
     else{
-      this.subEn.update(this.getLine(item, this.subEn.getSubtitle()),ChangeType.Delete)
+      this.updateSub(this.subEn, this.getLine(item, this.subEn.getSubtitle()),ChangeType.Delete)
     }
-
-    callback(item)
   }
 
   getLine(item:TimelineItem, sub:Subtitle):Array<SubtitleLine> {
@@ -315,12 +314,25 @@ export class TimelineComponent implements OnInit {
   onPlayerLoad(player:Player){
     //This locks the timeline to the length of the video
     player.on('loadedmetadata', () =>{
-      console.log("duration: "+player.duration()+" lol wtf did i do")
-
       //Temporarily disabling this so that I can see more items
       // this.timeline.setOptions({max: time.sec(player.duration()),})
     })
   }
+
+  updateSub(subWrapper:SubtitleWrapper, lines:Array<SubtitleLine>, changeType:ChangeType){
+    updateSubImpl(this, subWrapper, lines, changeType)
+  }
+
+  @HostListener('document:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    if(event.target !== document.body || event.keyCode !== 46)
+      return;
+
+    let selections = this.timeline.getSelection()
+    if(selections.length > 0)
+      this.items.remove(selections)
+  }
+
 }
 
 function l(str:string){

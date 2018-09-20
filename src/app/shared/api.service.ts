@@ -14,7 +14,7 @@ export class ApiService {
     tap(res => { if(this.logApi) {console.log("> Res", res)} })
   ];
 
-  public logApi: boolean = true;
+  public logApi: boolean = false;
 
   constructor(private http: HttpClient) {}
 

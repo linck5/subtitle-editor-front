@@ -78,10 +78,10 @@ export class SubtitleWrapper {
       refCount(),
     ).subscribe(sub => this.subtitleSource.next(cloneObject(sub)))
 
-    this.subtitle.subscribe(sub => {
-      console.log('sub updated: lines:')
-      console.log(sub.lines)
-    })
+    // this.subtitle.subscribe(sub => {
+    //   console.log('sub updated: lines:')
+    //   console.log(sub.lines)
+    // })
   }
 
   //Updates the source, and notifies observers of changes

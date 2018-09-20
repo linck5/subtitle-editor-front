@@ -32,7 +32,6 @@ export class VideoPreviewComponent implements OnInit, OnDestroy, AfterViewInit {
 
     function addCue(track:TextTrack) {
       track.mode = 'showing'
-      console.log(track.cues)
       track.addCue(new VTTCue(0, 4, "[Test]"));
       track.addCue(new VTTCue(2, 4, "dude it works"));
     }
@@ -47,10 +46,6 @@ export class VideoPreviewComponent implements OnInit, OnDestroy, AfterViewInit {
         addCue(track);
       }
     })
-    
-
-    
-    
   }
 
   ngOnDestroy() {

@@ -14,7 +14,7 @@ const routes: Routes = [
 
   {
     path: '',
-    canActivateChild: [AuthGuard],
+    // canActivateChild: [AuthGuard], // taking this out temporarily for testing. we gotta figure out a way to properly disable auth for dev
     children: [
       {
         path: 'admin',

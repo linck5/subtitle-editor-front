@@ -5,6 +5,12 @@ export let time = {
     min: (min:number) => {
         return new Date(min * 60 * 1000);
     },
+    ml: (ml:number) => {
+        return new Date(ml);
+    },
+    getSec: (date:Date) => {
+        return date.getTime() / 1000;
+    },
     getMl: (date:Date) =>{
         return date.getTime();
     },
