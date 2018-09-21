@@ -46,8 +46,16 @@ export class TimelineComponent implements OnInit, SubObserver {
     
 
     let groups = [
-      {id: 1,className: 'jp-group'},
-      {id: 2,className: 'en-group'}
+      {
+        id: 1,
+        content: 'JP Subs',
+        className: 'jp-group'
+      },
+      {
+        id: 2,
+        content: 'EN Subs',
+        className: 'en-group'
+      }
     ]
 
     // Create a DataSet (allows two way data-binding)
@@ -67,7 +75,8 @@ export class TimelineComponent implements OnInit, SubObserver {
       max: time.min(300), //This will be the length of the anime episode
       zoomMax: 300000,
       zoomMin: 2246,
-      stack: false,
+      margin:{item:{horizontal:-1}},
+      // stack: false,
       showMajorLabels: false,
       // multiselect: true, //NOT YET
       onAdd: this.onAdd.bind(this),
@@ -106,7 +115,7 @@ export class TimelineComponent implements OnInit, SubObserver {
     // timeline.setOptions({max: time.min(5)})
 
     this.timeline.on('select', this.onSelect.bind(this))
-    
+    this.adjustGroupMinHeight(); 
     
   }
 
@@ -297,18 +306,25 @@ export class TimelineComponent implements OnInit, SubObserver {
     return group === 1 ? subId : subId + this.idSeparator
   }
 
-  @HostListener('window:keydown', ['$event'])
+  @HostListener('document:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
     if(event.key === this.noSnapKey){
       this.noSnapKeyPressed = true;
     }
   }
 
-  @HostListener('window:keyup', ['$event'])
+  @HostListener('document:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent) {
     if(event.key === this.noSnapKey){
       this.noSnapKeyPressed = false;
     }
+
+    if(event.target !== document.body || event.keyCode !== 46)
+      return;
+
+    let selections = this.timeline.getSelection()
+    if(selections.length > 0)
+      this.items.remove(selections)
   }
 
   onPlayerLoad(player:Player){
@@ -323,14 +339,20 @@ export class TimelineComponent implements OnInit, SubObserver {
     updateSubImpl(this, subWrapper, lines, changeType)
   }
 
-  @HostListener('document:keyup', ['$event'])
-  keyEvent(event: KeyboardEvent) {
-    if(event.target !== document.body || event.keyCode !== 46)
-      return;
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.adjustGroupMinHeight();
+  }
 
-    let selections = this.timeline.getSelection()
-    if(selections.length > 0)
-      this.items.remove(selections)
+  adjustGroupMinHeight() {
+    let fullHeight = this.timelineCont.nativeElement.querySelector('.vis-panel.vis-center').clientHeight;
+    // let fullHeight = this.timelineCont.nativeElement.clientHeight;
+    let padding = 5;
+    let lol = this.timelineCont.nativeElement.querySelectorAll('.vis-labelset .vis-label .vis-inner');
+    for (let i = 0; i < lol.length; i++) {
+      const e = lol[i];
+      e.setAttribute('style',`min-height:${(fullHeight) / 2 - padding * 2}px`);
+    }
   }
 
 }
