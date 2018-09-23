@@ -5,6 +5,7 @@ import { publishReplay, refCount, mergeMap, map, filter } from 'rxjs/operators';
 import { ConnectableObservable, Observable, BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { copyObj } from '@angular/animations/browser/src/util';
+import { cloneObject } from './miscUtils';
 
 class Tree {
   _id:number
@@ -76,7 +77,11 @@ export class SubtitleWrapper {
     this.api.get<Subtitle>(`subtitle/${this.id}`).pipe(
       publishReplay(),
       refCount(),
-    ).subscribe(sub => this.subtitleSource.next(cloneObject(sub)))
+    ).subscribe(sub => {
+      let cut = cloneObject(sub);
+      cut.lines = cut.lines.slice(0,10)
+      this.subtitleSource.next(cut)
+    })
 
     // this.subtitle.subscribe(sub => {
     //   console.log('sub updated: lines:')
@@ -134,8 +139,4 @@ export class SubtitleWrapper {
         return i
     }
   }
-}
-
-function cloneObject(obj) {
-  return JSON.parse(JSON.stringify(obj))
 }

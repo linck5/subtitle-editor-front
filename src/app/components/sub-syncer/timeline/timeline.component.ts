@@ -73,7 +73,7 @@ export class TimelineComponent implements OnInit, SubObserver {
       height: "100%",
       min: 0,
       max: time.min(300), //This will be the length of the anime episode
-      zoomMax: 300000,
+      zoomMax: 10000000,
       zoomMin: 2246,
       margin:{item:{horizontal:-1}},
       // stack: false,
@@ -115,8 +115,8 @@ export class TimelineComponent implements OnInit, SubObserver {
     // timeline.setOptions({max: time.min(5)})
 
     this.timeline.on('select', this.onSelect.bind(this))
-    this.adjustGroupMinHeight(); 
-    
+    setTimeout(()=>this.adjustGroupMinHeight(),0)   
+    // this.adjustGroupMinHeight() 
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -311,6 +311,13 @@ export class TimelineComponent implements OnInit, SubObserver {
     if(event.key === this.noSnapKey){
       this.noSnapKeyPressed = true;
     }
+    
+    if(event.target !== document.body || event.keyCode !== 46)
+      return;
+
+    let selections = this.timeline.getSelection()
+    if(selections.length > 0)
+      this.items.remove(selections)
   }
 
   @HostListener('document:keyup', ['$event'])
@@ -318,13 +325,6 @@ export class TimelineComponent implements OnInit, SubObserver {
     if(event.key === this.noSnapKey){
       this.noSnapKeyPressed = false;
     }
-
-    if(event.target !== document.body || event.keyCode !== 46)
-      return;
-
-    let selections = this.timeline.getSelection()
-    if(selections.length > 0)
-      this.items.remove(selections)
   }
 
   onPlayerLoad(player:Player){

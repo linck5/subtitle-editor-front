@@ -40,8 +40,9 @@
     <mat-header-cell *matHeaderCellDef></mat-header-cell>
     <mat-cell *matCellDef="let sub">
       <div class="time-cell">
-        <div>{{sub.startTime | date:"mm:ss:SS"}}</div>
-        <div>{{sub.endTime | date:"mm:ss:SS"}}</div>
+        <!-- <div><input #startInput [ngModel]='sub.startTime | date:"mm:ss:SS"' (keydown)="timesChanged($event, sub.id, true, startInput.value)"></div> -->
+        <div><input type="text" #startInput [ngModel]='sub.startTime | date:"H:mm:ss.SS":"+0000"' (focusout)="onFocusOut($event, sub.id, true, startInput.value)" (keypress)="timesChanged($event, sub.id, true, startInput.value)"></div>
+        <div><input type="text" #endInput [ngModel]='sub.endTime | date:"H:mm:ss.SS":"+0000"' (focusout)="onFocusOut($event, sub.id, false, endInput.value)" (keypress)="timesChanged($event, sub.id, false, endInput.value)"></div>      
       </div>
     </mat-cell>
   </ng-container>
@@ -58,7 +59,7 @@
     <mat-header-cell  *matHeaderCellDef></mat-header-cell>
     <mat-cell *matCellDef="let sub">
       <!-- {{sub.text}} -->
-      <textarea autosize rows=1 placeholder="Text" [value]="sub.text" [(ngModel)]="sub.text" (input)="textAreaChanged($event, sub.id)"></textarea>
+      <textarea #subTextArea autosize rows=1 placeholder="Text" [ngModel]="sub.text" (input)="textAreaChanged($event, sub.id, subTextArea.value)"></textarea>
     </mat-cell>
   </ng-container>
   <!-- <mat-header-row *matHeaderRowDef="columnsToDisplay" [style.min-height]="0"></tr> -->

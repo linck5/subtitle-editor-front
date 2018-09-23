@@ -41,6 +41,14 @@ mat-cell, .mat-header-cell {
 }
 .mat-column-subTime{
     min-width:100px;
+    input {
+        outline: none;
+        background-color: none;
+        -webkit-appearance: none;
+        cursor: text;
+        border: none;
+        font:inherit;
+    }
 }
 .mat-column-subPosition{
     min-width:120px;
