@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { Subtitle, SubtitleLine, Position } from '../subtitle';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, MatSort } from '@angular/material';
 import { SubtitleService, SubtitleWrapper, Change, ChangeType } from '../../../shared/subtitle.service';
 import { first } from 'rxjs/operators';
 import { SubObserver, updateSubImpl, updateChecker } from '../../../shared/subObserver';
@@ -23,17 +23,27 @@ export class SubListComponent implements OnInit, SubObserver {
 
   columnsToDisplay = ["subId","subTime","subPosition","subText"]
 
-  subList: Array<SubtitleLine> = []
+  subListSource = new MatTableDataSource<SubtitleLine>([])
+
+  @ViewChild(MatSort) matSort: MatSort;
 
   constructor(private subService: SubtitleService, private cd:ChangeDetectorRef) { }
 
-  ngOnInit() {  }
+  ngOnInit() {
+
+    this.subListSource.sort = this.matSort
+    // this.subListSource.sortData(adss, matSort)
+  }
+
+  onSortData(sort: MatSort) {
+    console.log('on sort')
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     // only run when property "data" changed
     if (changes['subtitle'] && this.subtitle) {
       this.subtitle.subtitle.pipe(first()).subscribe(sub => {
-        this.subList = sub.lines;
+        this.subListSource.data = sub.lines
         this.cd.detectChanges();
       })
       this.subtitle.changes.subscribe(updateChecker(this,this.onSubChanges).bind(this))
@@ -41,19 +51,21 @@ export class SubListComponent implements OnInit, SubObserver {
   }
 
   onSubChanges(changes:Array<Change>) {
+    let newList
     for (let i = 0; i < changes.length; i++) {      
       switch(changes[i].type){
         case ChangeType.New:
-          this.subList = [...this.subList, changes[i].line]        
+          newList = [...this.subListSource.data, changes[i].line]        
           break;
         case ChangeType.Update:
-          this.subList = this.subList.map(line => line.id === changes[i].line.id ? line = changes[i].line : line)
+          newList = this.subListSource.data.map(line => line.id === changes[i].line.id ? line = changes[i].line : line)
           break;
         case ChangeType.Delete:
-          this.subList = this.subList.filter(line => line.id !== changes[i].line.id)
+          newList = this.subListSource.data.filter(line => line.id !== changes[i].line.id)
           break;
       }
     }
+    this.subListSource.data = newList
     this.cd.detectChanges();
   }
 
@@ -62,13 +74,13 @@ export class SubListComponent implements OnInit, SubObserver {
   }
 
   textAreaChanged(event:Event, subID:number, value:string){
-    let line = this.subList.find(line => line.id === subID)
+    let line = this.subListSource.data.find(line => line.id === subID)
     line.text = value
     this.updateSub(this.subtitle,[line], ChangeType.Update)
   }
 
   onFocusOut(event, subID:number, isStartTime:boolean, value:string){
-    let line = this.subList.find(line => line.id === subID)
+    let line = this.subListSource.data.find(line => line.id === subID)
     if(isStartTime)
       line.startTime = this.formattedStringToMl(value)
     else
@@ -96,7 +108,7 @@ export class SubListComponent implements OnInit, SubObserver {
     let result = this.formattedStringToMl(newDisplayedValue)
     event.target.value = newDisplayedValue
 
-    let line = cloneObject(this.subList.find(line => line.id === subID))
+    let line = cloneObject(this.subListSource.data.find(line => line.id === subID))
     if(isStartTime)
       line.startTime = result
     else

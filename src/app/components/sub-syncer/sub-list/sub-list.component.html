@@ -1,43 +1,10 @@
-<mat-table [dataSource]="emptyDataSource">
+<mat-table [dataSource]="subListSource" mat-sort class="real-table" (matSortChange)="onSortData($event)" matSortActive="pos" matSortDirection="asc" matSortDisableClear>
   <ng-container matColumnDef="subId">
     <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
     <mat-cell *matCellDef="let sub"> {{sub.id}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="subTime">
     <mat-header-cell *matHeaderCellDef>Start/End</mat-header-cell>
-    <mat-cell *matCellDef="let sub">
-      <div class="time-cell">
-        <div>{{sub.startTime | date:"mm:ss:SS"}}</div>
-        <div>{{sub.endTime | date:"mm:ss:SS"}}</div>
-      </div>
-    </mat-cell>
-  </ng-container>
-  
-  <ng-container matColumnDef="subPosition">
-    <mat-header-cell *matHeaderCellDef>Position</mat-header-cell>
-    <mat-cell *matCellDef="let sub">
-        <mat-select [(value)]="sub.position">
-            <mat-option *ngFor="let position of getPositions();" value="{{position}}">{{position}}</mat-option>
-        </mat-select>
-    </mat-cell>
-  </ng-container>
-  <ng-container matColumnDef="subText">
-    <mat-header-cell *matHeaderCellDef>Text</mat-header-cell>
-    <mat-cell *matCellDef="let sub">
-      <!-- {{sub.text}} -->
-      <textarea autosize rows=1 placeholder="Text" [value]="sub.text" [(ngModel)]="sub.text"></textarea>
-    </mat-cell>
-  </ng-container>
-  <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
-  <mat-row *matRowDef="let subItem; columns: columnsToDisplay"></mat-row>
-</mat-table>
-<mat-table [dataSource]="subList" class="real-table">
-  <ng-container matColumnDef="subId">
-    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-    <mat-cell *matCellDef="let sub"> {{sub.id}} </mat-cell>
-  </ng-container>
-  <ng-container matColumnDef="subTime">
-    <mat-header-cell *matHeaderCellDef></mat-header-cell>
     <mat-cell *matCellDef="let sub">
       <div class="time-cell">
         <!-- <div><input #startInput [ngModel]='sub.startTime | date:"mm:ss:SS"' (keydown)="timesChanged($event, sub.id, true, startInput.value)"></div> -->
@@ -48,7 +15,7 @@
   </ng-container>
   
   <ng-container matColumnDef="subPosition">
-    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-header-cell mat-sort-header="pos" *matHeaderCellDef>Position</mat-header-cell>
     <mat-cell *matCellDef="let sub">
         <mat-select [(value)]="sub.position">
             <mat-option *ngFor="let position of getPositions();" value="{{position}}">{{position}}</mat-option>
@@ -56,12 +23,12 @@
     </mat-cell>
   </ng-container>
   <ng-container matColumnDef="subText">
-    <mat-header-cell  *matHeaderCellDef></mat-header-cell>
+    <mat-header-cell  *matHeaderCellDef>Text</mat-header-cell>
     <mat-cell *matCellDef="let sub">
       <!-- {{sub.text}} -->
       <textarea #subTextArea autosize rows=1 placeholder="Text" [ngModel]="sub.text" (input)="textAreaChanged($event, sub.id, subTextArea.value)"></textarea>
     </mat-cell>
   </ng-container>
-  <!-- <mat-header-row *matHeaderRowDef="columnsToDisplay" [style.min-height]="0"></tr> -->
-  <mat-row *matRowDef="let subItem; columns: columnsToDisplay"></mat-row>
+  <mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></mat-header-row>
+  <mat-row *matRowDef="let subItem; columns: columnsToDisplay" ></mat-row>
 </mat-table>

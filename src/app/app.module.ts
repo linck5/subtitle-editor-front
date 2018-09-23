@@ -24,6 +24,7 @@ import { VideoPreviewComponent } from './components/sub-syncer/video-preview/vid
 
 import { Autosize } from './components/sub-syncer/autosize.directive';
 import { TimelineComponent } from './components/sub-syncer/timeline/timeline.component';
+import { MatTableTestComponent } from './components/sub-syncer/mat-table-test/mat-table-test.component';
 // import { SubItemComponent } from './components/sub-syncer/timeline/sub-item/sub-item.component'
 
 
@@ -36,7 +37,8 @@ import { TimelineComponent } from './components/sub-syncer/timeline/timeline.com
     SubSyncerComponent,
     SubListComponent,
     VideoPreviewComponent,
-    TimelineComponent
+    TimelineComponent,
+    MatTableTestComponent
     // SubItemComponent
   ],
   imports: [
