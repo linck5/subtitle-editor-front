@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, AfterViewInit } from '@angular/core';
 import { Subtitle, SubtitleLine, Position } from '../subtitle';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { SubtitleService, SubtitleWrapper, Change, ChangeType } from '../../../shared/subtitle.service';
@@ -16,7 +16,7 @@ const positions = Object.keys(Position);
 })
 export class SubListComponent implements OnInit, SubObserver {
 
-  updateOnNext:boolean;
+  updateOnNext:boolean = true;
 
   @Input()
   subtitle:SubtitleWrapper
@@ -32,6 +32,17 @@ export class SubListComponent implements OnInit, SubObserver {
   ngOnInit() {
 
     this.subListSource.sort = this.matSort
+    this.subListSource.sortingDataAccessor = (line, headerId) => {
+
+      switch (headerId) {
+        case 'id':
+          return line.id
+        case 'pos':
+          return line.startTime
+      }
+
+      return 2
+    }
     // this.subListSource.sortData(adss, matSort)
   }
 

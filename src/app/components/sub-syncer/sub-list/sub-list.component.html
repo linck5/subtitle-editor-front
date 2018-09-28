@@ -1,10 +1,10 @@
-<mat-table [dataSource]="subListSource" mat-sort class="real-table" (matSortChange)="onSortData($event)" matSortActive="pos" matSortDirection="asc" matSortDisableClear>
+<mat-table [dataSource]="subListSource" matSort class="real-table" (matSortChange)="onSortData($event)" matSortActive="pos" matSortDirection="asc" matSortDisableClear>
   <ng-container matColumnDef="subId">
-    <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+    <mat-header-cell mat-sort-header="id" *matHeaderCellDef>ID</mat-header-cell>
     <mat-cell *matCellDef="let sub"> {{sub.id}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="subTime">
-    <mat-header-cell *matHeaderCellDef>Start/End</mat-header-cell>
+    <mat-header-cell mat-sort-header="pos" *matHeaderCellDef>Start/End</mat-header-cell>
     <mat-cell *matCellDef="let sub">
       <div class="time-cell">
         <!-- <div><input #startInput [ngModel]='sub.startTime | date:"mm:ss:SS"' (keydown)="timesChanged($event, sub.id, true, startInput.value)"></div> -->
@@ -15,7 +15,7 @@
   </ng-container>
   
   <ng-container matColumnDef="subPosition">
-    <mat-header-cell mat-sort-header="pos" *matHeaderCellDef>Position</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef>Position</mat-header-cell>
     <mat-cell *matCellDef="let sub">
         <mat-select [(value)]="sub.position">
             <mat-option *ngFor="let position of getPositions();" value="{{position}}">{{position}}</mat-option>
