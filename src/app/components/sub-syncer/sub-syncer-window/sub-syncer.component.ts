@@ -1,10 +1,8 @@
 import { Component, OnInit, ViewEncapsulation, ViewChildren, QueryList, ElementRef, ViewChild } from '@angular/core';
 import { SubListComponent } from '../sub-list/sub-list.component';
 import { Player } from 'video.js';
-import { flatMap, tap } from 'rxjs/operators';
 import { TimelineComponent } from '../timeline/timeline.component';
 import { SubtitleService, SubtitleWrapper } from '../../../shared/subtitle.service';
-import { Subtitle } from '../subtitle';
 
 @Component({
   selector: 'app-sub-syncer',

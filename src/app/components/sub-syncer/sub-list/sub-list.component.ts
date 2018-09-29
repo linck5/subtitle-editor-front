@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, AfterViewInit, OnChanges } from '@angular/core';
 import { Subtitle, SubtitleLine, Position } from '../subtitle';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { SubtitleService, SubtitleWrapper, Change, ChangeType } from '../../../shared/subtitle.service';
@@ -14,7 +14,7 @@ const positions = Object.keys(Position);
   styleUrls: ['./sub-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SubListComponent implements OnInit, SubObserver {
+export class SubListComponent implements OnInit, OnChanges, SubObserver {
 
   updateOnNext:boolean = true;
 

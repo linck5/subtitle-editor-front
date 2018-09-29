@@ -16,7 +16,6 @@ export var updateChecker = (comp:SubObserver, callback: (changes:Array<Change>) 
     return (changes:Array<Change>) =>{
         if(!comp.updateOnNext){
             comp.updateOnNext = true;
-            console.log('not updating lel')
             return;
         }
         return callback.bind(comp)(changes);

@@ -1,9 +1,9 @@
-import { Component, ElementRef, ViewEncapsulation, OnInit, ViewChild, HostListener, Input, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ElementRef, ViewEncapsulation, OnInit, ViewChild, HostListener, Input, SimpleChanges, ChangeDetectionStrategy, OnChanges } from '@angular/core';
 import * as Vis from "vis";
 import { TimelineTimeAxisScaleType, TimelineItem, DataSet } from "vis";
 import { time } from "./../../../shared/time";
 import { Player } from 'video.js';
-import { SubtitleService, SubtitleWrapper, ChangeType, Change } from "./../../../shared/subtitle.service";
+import { SubtitleWrapper, ChangeType, Change } from "./../../../shared/subtitle.service";
 import { Subtitle, SubtitleLine } from '../subtitle';
 import { first } from 'rxjs/operators';
 import { SubObserver, updateSubImpl, updateChecker } from '../../../shared/subObserver';
@@ -15,7 +15,7 @@ import { SubObserver, updateSubImpl, updateChecker } from '../../../shared/subOb
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TimelineComponent implements OnInit, SubObserver {
+export class TimelineComponent implements OnInit, OnChanges, SubObserver {
 
   @Input()
   subEn:SubtitleWrapper
@@ -40,7 +40,7 @@ export class TimelineComponent implements OnInit, SubObserver {
   //I add this number to every item on one of the groups so that all the id's are unique
   idSeparator = 50000 
 
-  constructor(private renderer:ElementRef, private subService:SubtitleService) {}
+  constructor(private renderer:ElementRef) {}
 
   ngOnInit() {  
     
