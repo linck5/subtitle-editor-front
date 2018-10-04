@@ -59,7 +59,8 @@ export class Autosize implements AfterViewInit {
     }
     // run first adjust
     this.el.style.overflow = 'hidden';
-    this.adjust();
+    setTimeout(() => this.adjust(), 0)
+    // this.adjust();
   }
 
   adjust(): void{

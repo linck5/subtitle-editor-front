@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, AfterViewInit, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, AfterViewInit, OnChanges, HostListener } from '@angular/core';
 import { Subtitle, SubtitleLine, Position } from '../subtitle';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { SubtitleService, SubtitleWrapper, Change, ChangeType } from '../../../shared/subtitle.service';
@@ -24,6 +24,10 @@ export class SubListComponent implements OnInit, OnChanges, SubObserver {
   columnsToDisplay = ["subId","subTime","subPosition","subText"]
 
   subListSource = new MatTableDataSource<SubtitleLine>([])
+
+  private selected:SubtitleLine[] = [];
+
+  editableAttr = "data-editable"
 
   @ViewChild(MatSort) matSort: MatSort;
 
@@ -90,13 +94,20 @@ export class SubListComponent implements OnInit, OnChanges, SubObserver {
     this.updateSub(this.subtitle,[line], ChangeType.Update)
   }
 
-  onFocusOut(event, subID:number, isStartTime:boolean, value:string){
+  onFocusOut(event, subID:number, isStartTime:boolean, value:string, parentElem:HTMLElement){
     let line = this.subListSource.data.find(line => line.id === subID)
     if(isStartTime)
       line.startTime = this.formattedStringToMl(value)
     else
       line.endTime = this.formattedStringToMl(value)
+
+    this.makeNotEditable(parentElem);
+
     this.cd.detectChanges();
+  }
+
+  makeNotEditable(elem:HTMLElement){
+    elem.removeAttribute(this.editableAttr)
   }
 
   timesChanged(event, subID:number, isStartTime:boolean, value:string){
@@ -140,5 +151,44 @@ export class SubListComponent implements OnInit, OnChanges, SubObserver {
   //for template. no delete pls
   private getPositions() {
     return positions
+  }
+
+  //Mouse events
+  private isMouseDown = false;
+
+  mouseDown(event, line:SubtitleLine) {
+    this.isMouseDown = true;
+    this.selected = []
+    this.addSelection(line)
+  }
+  mouseOver(event, line:SubtitleLine) {
+    if(this.isMouseDown)
+      this.addSelection(line)
+  }
+
+  @HostListener('document:mouseup', ['$event'])
+  onMouseUp(event) {
+    this.isMouseDown = false;
+  }
+
+  //Boolean for template. Checks if row is selected
+  isSelected(line:SubtitleLine) {
+    return this.selected.includes(line);
+  }
+
+  addSelection(line:SubtitleLine) {
+    this.selected.push(line)
+    // this.cd.detectChanges();
+  }
+
+  onDoubleClick($event, elem:HTMLElement, sub:SubtitleLine, inputElem) {
+    if(!elem.hasAttribute(this.editableAttr)){
+      elem.setAttribute(this.editableAttr, "");
+      // (elem.firstChild as HTMLInputElement).focus();
+    }
+  }
+
+  onTextAreaFocusOut(parentElem:HTMLElement){
+    this.makeNotEditable(parentElem)
   }
 }

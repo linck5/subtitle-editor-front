@@ -95,9 +95,10 @@ export class VideoPreviewComponent implements OnInit, OnDestroy, OnChanges, Afte
     this.vPlayerLoad.emit(this.vPlayer)
 
     this.vPlayer.one('loadeddata', (e:Event) => {
-      let track = this.vPlayer.addRemoteTextTrack({src: '/assets/emptyCaptions.vtt'}, false).track
+      let track = this.vPlayer.addRemoteTextTrack({}, false).track
       //We give the track a bit of time so it can be initialized
-      setTimeout(() => this.subTrackReady.next(track), 0);
+      this.subTrackReady.next(track)
+      // setTimeout(() => this.subTrackReady.next(track), 0);
     })
   }
 

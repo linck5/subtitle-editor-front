@@ -1,4 +1,4 @@
-<mat-table [dataSource]="subListSource" matSort class="real-table" (matSortChange)="onSortData($event)" matSortActive="pos" matSortDirection="asc" matSortDisableClear>
+<mat-table [dataSource]="subListSource" matSort (matSortChange)="onSortData($event)" matSortActive="pos" matSortDirection="asc" matSortDisableClear>
   <ng-container matColumnDef="subId">
     <mat-header-cell mat-sort-header="id" *matHeaderCellDef>ID</mat-header-cell>
     <mat-cell *matCellDef="let sub"> {{sub.id}} </mat-cell>
@@ -8,8 +8,14 @@
     <mat-cell *matCellDef="let sub">
       <div class="time-cell">
         <!-- <div><input #startInput [ngModel]='sub.startTime | date:"mm:ss:SS"' (keydown)="timesChanged($event, sub.id, true, startInput.value)"></div> -->
-        <div><input type="text" #startInput [ngModel]='sub.startTime | date:"H:mm:ss.SS":"+0000"' (focusout)="onFocusOut($event, sub.id, true, startInput.value)" (keypress)="timesChanged($event, sub.id, true, startInput.value)"></div>
-        <div><input type="text" #endInput [ngModel]='sub.endTime | date:"H:mm:ss.SS":"+0000"' (focusout)="onFocusOut($event, sub.id, false, endInput.value)" (keypress)="timesChanged($event, sub.id, false, endInput.value)"></div>      
+        <div #startTime (dblclick)="onDoubleClick($event, startTime, sub)">
+          <input appAutofocus *ngIf="startTime.hasAttribute(editableAttr)" type="text" #startInput [ngModel]='sub.startTime | date:"H:mm:ss.SS":"+0000"' (blur)="onFocusOut($event, sub.id, true, startInput.value, startTime)" (keypress)="timesChanged($event, sub.id, true, startInput.value)">
+          <span *ngIf="!startTime.hasAttribute(editableAttr)">{{sub.startTime | date:"H:mm:ss.SS":"+0000"}}</span>
+        </div>
+        <div #endTime (dblclick)="onDoubleClick($event, endTime, sub)">
+          <input appAutofocus *ngIf="endTime.hasAttribute(editableAttr)" type="text" #endInput [ngModel]='sub.endTime | date:"H:mm:ss.SS":"+0000"' (blur)="onFocusOut($event, sub.id, false, endInput.value, endTime)" (keypress)="timesChanged($event, sub.id, false, endInput.value)">
+          <span *ngIf="!endTime.hasAttribute(editableAttr)">{{sub.endTime | date:"H:mm:ss.SS":"+0000"}}</span>
+        </div>      
       </div>
     </mat-cell>
   </ng-container>
@@ -25,10 +31,13 @@
   <ng-container matColumnDef="subText">
     <mat-header-cell  *matHeaderCellDef>Text</mat-header-cell>
     <mat-cell *matCellDef="let sub">
-      <!-- {{sub.text}} -->
-      <textarea #subTextArea autosize rows=1 placeholder="Text" [ngModel]="sub.text" (input)="textAreaChanged($event, sub.id, subTextArea.value)"></textarea>
+      <span #subText (dblclick)="onDoubleClick($event, subText, sub)">
+        <textarea *ngIf="subText.hasAttribute(editableAttr)" appAutofocus #subTextArea autosize rows=1 placeholder="Text" [ngModel]="sub.text" (input)="textAreaChanged($event, sub.id, subTextArea.value)" (blur)="onTextAreaFocusOut(subText)"></textarea>
+        <span *ngIf="!subText.hasAttribute(editableAttr)">{{sub.text}}</span>
+      </span>
+      
     </mat-cell>
   </ng-container>
   <mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></mat-header-row>
-  <mat-row *matRowDef="let subItem; columns: columnsToDisplay" ></mat-row>
+  <mat-row *matRowDef="let subItem; columns: columnsToDisplay" [class.selected]="isSelected(subItem)"  (mousedown)="mouseDown($event, subItem)" (mouseover)="mouseOver($event, subItem)"></mat-row>
 </mat-table>

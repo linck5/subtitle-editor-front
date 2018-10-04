@@ -26,9 +26,11 @@ textarea {
     border: none;
     display:inline-block;
     vertical-align:middle;
+    font-size: inherit;
 }
 
-.real-table {
+
+mat-table {
     flex: 1 1 100%;
     overflow: auto;
 }
@@ -48,6 +50,10 @@ mat-cell, .mat-header-cell {
         cursor: text;
         border: none;
         font:inherit;
+        padding:0;
+    }
+    div {
+        padding:2px;
     }
 }
 .mat-column-subPosition{
@@ -55,4 +61,27 @@ mat-cell, .mat-header-cell {
 }
 .mat-column-subText{
     flex: 1;
+}
+
+mat-row {
+
+    user-select:none;
+
+    &:hover {
+        background: rgb(226, 226, 226);
+    }
+
+    &.selected {
+        background: rgb(163, 163, 163);
+    }
+}
+
+input {
+    // background: none;
+    padding: 0;
+}
+
+mat-cell span {
+    width:100%;
+    height:100%;
 }
