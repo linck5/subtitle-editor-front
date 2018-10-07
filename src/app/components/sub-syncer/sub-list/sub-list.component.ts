@@ -25,7 +25,7 @@ export class SubListComponent implements OnInit, OnChanges, SubObserver {
 
   subListSource = new MatTableDataSource<SubtitleLine>([])
 
-  private selected:SubtitleLine[] = [];
+  private selected:SubtitleLine[] = []
 
   editableAttr = "data-editable"
 
@@ -155,15 +155,19 @@ export class SubListComponent implements OnInit, OnChanges, SubObserver {
 
   //Mouse events
   private isMouseDown = false;
+  private firstSelected:number;
+  private currentlySelected:number
 
   mouseDown(event, line:SubtitleLine) {
     this.isMouseDown = true;
-    this.selected = []
-    this.addSelection(line)
+    this.firstSelected = this.currentlySelected = this.getCurrentlySortedArray().indexOf(line)
+    this.refreshSelected()
   }
   mouseOver(event, line:SubtitleLine) {
-    if(this.isMouseDown)
-      this.addSelection(line)
+    if(this.isMouseDown){
+      this.currentlySelected = this.getCurrentlySortedArray().indexOf(line)
+      this.refreshSelected()
+    }
   }
 
   @HostListener('document:mouseup', ['$event'])
@@ -176,10 +180,22 @@ export class SubListComponent implements OnInit, OnChanges, SubObserver {
     return this.selected.includes(line);
   }
 
-  addSelection(line:SubtitleLine) {
-    this.selected.push(line)
-    // this.cd.detectChanges();
+  refreshSelected() {
+    let smaller = Math.min(this.firstSelected, this.currentlySelected)
+    let bigger = Math.max(this.firstSelected, this.currentlySelected)
+
+    this.selected = this.getCurrentlySortedArray().filter((l, i) => i >= smaller && i <= bigger)
   }
+
+  getSelectedLines() {
+    
+  }
+
+  getCurrentlySortedArray(){
+    return this.subListSource.sortData(this.subListSource.data,this.matSort)
+  }
+
+
 
   onDoubleClick($event, elem:HTMLElement, sub:SubtitleLine, inputElem) {
     if(!elem.hasAttribute(this.editableAttr)){
