@@ -3,6 +3,8 @@ import { SubListComponent } from '../sub-list/sub-list.component';
 import { Player } from 'video.js';
 import { TimelineComponent } from '../timeline/timeline.component';
 import { SubtitleService, SubtitleWrapper } from '../../../shared/subtitle.service';
+import { MatDialog } from '@angular/material';
+import { ShiftTimesComponent } from '../shift-times/shift-times.component';
 
 @Component({
   selector: 'app-sub-syncer',
@@ -23,7 +25,7 @@ export class SubSyncerComponent implements OnInit {
 
   ignoreScroll:boolean = false;
 
-  constructor(private subService:SubtitleService) { }
+  constructor(private subService:SubtitleService, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.subService.getSubtitle(this.subService.treeExampleEn)
@@ -48,6 +50,14 @@ export class SubSyncerComponent implements OnInit {
 
   onPlayerLoad(player:Player){
     this.timelineComp.onPlayerLoad(player);
+  }
+
+  shiftTimes(){
+    console.log('shifting times...')
+    this.dialog.open(ShiftTimesComponent, {
+      width: '250px',
+      data: {selected: []}
+    });
   }
 
 }

@@ -5,6 +5,7 @@ import { SubtitleService, SubtitleWrapper, Change, ChangeType } from '../../../s
 import { first } from 'rxjs/operators';
 import { SubObserver, updateSubImpl, updateChecker } from '../../../shared/subObserver';
 import { cloneObject } from '../../../shared/miscUtils';
+import { KeyboardService } from 'src/app/shared/keyboard.service';
 
 const positions = Object.keys(Position);
 
@@ -31,7 +32,9 @@ export class SubListComponent implements OnInit, OnChanges, SubObserver {
 
   @ViewChild(MatSort) matSort: MatSort;
 
-  constructor(private subService: SubtitleService, private cd:ChangeDetectorRef) { }
+  constructor(private subService: SubtitleService, private cd:ChangeDetectorRef, private keyboard:KeyboardService) {
+    // this.keyboard.OnKey
+  }
 
   ngOnInit() {
 
@@ -51,7 +54,7 @@ export class SubListComponent implements OnInit, OnChanges, SubObserver {
   }
 
   onSortData(sort: MatSort) {
-    console.log('on sort')
+    // console.log('on sort')
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -153,6 +156,11 @@ export class SubListComponent implements OnInit, OnChanges, SubObserver {
     return positions
   }
 
+  //--------------------------
+  /**
+   *  Row Selection Logic
+  */
+
   //Mouse events
   private isMouseDown = false;
   private firstSelected:number;
@@ -162,6 +170,8 @@ export class SubListComponent implements OnInit, OnChanges, SubObserver {
     this.isMouseDown = true;
     this.firstSelected = this.currentlySelected = this.getCurrentlySortedArray().indexOf(line)
     this.refreshSelected()
+
+
   }
   mouseOver(event, line:SubtitleLine) {
     if(this.isMouseDown){
@@ -175,11 +185,6 @@ export class SubListComponent implements OnInit, OnChanges, SubObserver {
     this.isMouseDown = false;
   }
 
-  //Boolean for template. Checks if row is selected
-  isSelected(line:SubtitleLine) {
-    return this.selected.includes(line);
-  }
-
   refreshSelected() {
     let smaller = Math.min(this.firstSelected, this.currentlySelected)
     let bigger = Math.max(this.firstSelected, this.currentlySelected)
@@ -187,15 +192,18 @@ export class SubListComponent implements OnInit, OnChanges, SubObserver {
     this.selected = this.getCurrentlySortedArray().filter((l, i) => i >= smaller && i <= bigger)
   }
 
-  getSelectedLines() {
-    
+  //Boolean for template. Checks if row is selected. Applies a class if it is.
+  isSelected(line:SubtitleLine) {
+    return this.selected.includes(line);
   }
+
+  /**
+   *  /Row Selection Logic
+  */
 
   getCurrentlySortedArray(){
     return this.subListSource.sortData(this.subListSource.data,this.matSort)
   }
-
-
 
   onDoubleClick($event, elem:HTMLElement, sub:SubtitleLine, inputElem) {
     if(!elem.hasAttribute(this.editableAttr)){

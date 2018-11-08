@@ -8,10 +8,22 @@ app-sub-syncer {
     height: 100%;
     box-sizing: border-box;
 
+    button {
+        background: none;
+        color: inherit;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        outline: inherit;
+    }
+
     // &::after {
     //     content: '';
     //     flex: 1;
     // }
+    .shift-times-icon {
+        margin-left: 40px;
+    }
 
     mat-toolbar {
         flex-shrink: 0;

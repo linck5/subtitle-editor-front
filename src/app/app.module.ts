@@ -26,6 +26,7 @@ import { Autosize } from './components/sub-syncer/autosize.directive';
 import { TimelineComponent } from './components/sub-syncer/timeline/timeline.component';
 import { MatTableTestComponent } from './components/sub-syncer/mat-table-test/mat-table-test.component';
 import { AutofocusDirective } from './shared/autofocus.directive';
+import { ShiftTimesComponent } from './components/sub-syncer/shift-times/shift-times.component';
 // import { SubItemComponent } from './components/sub-syncer/timeline/sub-item/sub-item.component'
 
 
@@ -40,7 +41,8 @@ import { AutofocusDirective } from './shared/autofocus.directive';
     VideoPreviewComponent,
     TimelineComponent,
     MatTableTestComponent,
-    AutofocusDirective
+    AutofocusDirective,
+    ShiftTimesComponent
     // SubItemComponent
   ],
   imports: [
@@ -54,6 +56,9 @@ import { AutofocusDirective } from './shared/autofocus.directive';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     ApiService, AuthService, AuthGuard],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    ShiftTimesComponent
+  ]
 })
 export class AppModule {}
