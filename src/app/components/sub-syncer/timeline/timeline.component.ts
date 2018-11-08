@@ -7,6 +7,7 @@ import { SubtitleWrapper, ChangeType, Change } from "./../../../shared/subtitle.
 import { Subtitle, SubtitleLine } from '../subtitle';
 import { first } from 'rxjs/operators';
 import { SubObserver, updateSubImpl, updateChecker } from '../../../shared/subObserver';
+import { KeyboardService } from 'src/app/shared/keyboard.service';
 
 @Component({
   selector: 'app-timeline',
@@ -40,7 +41,10 @@ export class TimelineComponent implements OnInit, OnChanges, SubObserver {
   //I add this number to every item on one of the groups so that all the id's are unique
   idSeparator = 50000 
 
-  constructor(private renderer:ElementRef) {}
+  constructor(private renderer:ElementRef, private keyboard:KeyboardService) {
+    keyboard.keyUp.subscribe(this.onKeyUp.bind(this))
+    keyboard.keyDown.subscribe(this.onKeyDown.bind(this))
+  }
 
   ngOnInit() {  
     
@@ -306,13 +310,12 @@ export class TimelineComponent implements OnInit, OnChanges, SubObserver {
     return group === 1 ? subId : subId + this.idSeparator
   }
 
-  @HostListener('document:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
     if(event.key === this.noSnapKey){
       this.noSnapKeyPressed = true;
     }
     
-    if(event.target !== document.body || event.keyCode !== 46)
+    if(event.target !== document.body || event.which !== 46)
       return;
 
     let selections = this.timeline.getSelection()
@@ -320,7 +323,6 @@ export class TimelineComponent implements OnInit, OnChanges, SubObserver {
       this.items.remove(selections)
   }
 
-  @HostListener('document:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent) {
     if(event.key === this.noSnapKey){
       this.noSnapKeyPressed = false;

@@ -6,8 +6,8 @@ import { Observable, Subject } from 'rxjs';
 })
 export class KeyboardService {
 
-  keyDown : Subject<number> = new Subject();
-  keyUp : Subject<number> = new Subject();
+  keyDown : Subject<KeyboardEvent> = new Subject();
+  keyUp : Subject<KeyboardEvent> = new Subject();
 
   private downKeys: Array<number> = []
 
@@ -16,27 +16,26 @@ export class KeyboardService {
       //If the key is already on the array, it means
       // the event is repeating, so nothing will happen
       if(this.downKeys.includes(e.keyCode))
-        return;
+        return;7
       this.downKeys.push(e.keyCode);
-      this.keyDown.next(e.keyCode);
+      this.keyDown.next(e);
     })
 
     window.addEventListener('keyup', (e:KeyboardEvent) => {
       this.downKeys.splice(this.downKeys.indexOf(e.keyCode),1)
-      this.keyUp.next(e.keyCode);
+      this.keyUp.next(e);
     })
 
     //if the window loses focus,
     // act as if all keys were unpressed
     window.addEventListener('blur', () => {
       //Clears downKey
-      console.log('clearing keys');
-
-      let l = this.downKeys.length
-      for (let i = 0; i < l; i++) {
-        let e = this.downKeys.splice(0,1)
-        this.keyUp.next(e[0])
-      }
+      // let l = this.downKeys.length
+      // for (let i = 0; i < l; i++) {
+      //   let e = this.downKeys.splice(0,1)
+      //   this.keyUp.next(e[0])
+      // }
+      this.downKeys = []
     })
   }
 
