@@ -26,7 +26,7 @@ export class SubListComponent implements OnInit, OnChanges, SubObserver {
 
   subListSource = new MatTableDataSource<SubtitleLine>([])
 
-  private selected:SubtitleLine[] = []
+  selected:SubtitleLine[] = []
 
   editableAttr = "data-editable"
 
@@ -78,6 +78,7 @@ export class SubListComponent implements OnInit, OnChanges, SubObserver {
           break;
         case ChangeType.Delete:
           newList = this.subListSource.data.filter(line => line.id !== changes[i].line.id)
+          this.selected.splice(this.selected.indexOf(changes[i].line),1)
           break;
       }
     }
@@ -161,8 +162,8 @@ export class SubListComponent implements OnInit, OnChanges, SubObserver {
 
   //Mouse events
   private isMouseDown = false;
-  private firstSelected:number;
-  private currentlySelected:number;
+  private firstSelected:number; // Id of first line selected with mouse
+  private currentlySelected:number; // Id of current line selected while dragging mouse
   private previousSelectedLines:SubtitleLine[] = [];
   private currentSelectedLines:SubtitleLine[] = [];
 
@@ -170,39 +171,46 @@ export class SubListComponent implements OnInit, OnChanges, SubObserver {
     if(!e.ctrlKey)
       this.previousSelectedLines = []
 
-    console.log('clicked. ctrl pressed: ',e.ctrlKey);
-    
+    this.firstSelected = this.getCurrentlySortedArray().indexOf(line)
+
+    if(e.shiftKey){ //If shift key is pressed...      
+      //Adding all lines between 'currentlyselected' and this line selected 
+      let shiftLines = this.getLineRange(this.firstSelected, this.currentlySelected)
+      shiftLines.splice(shiftLines.indexOf(line),1)
+      this.previousSelectedLines = this.previousSelectedLines.concat(shiftLines)
+      let set = new Set(this.previousSelectedLines) //I use a set to eliminate duplicates
+      this.previousSelectedLines = Array.from(set)
+    }
 
     this.isMouseDown = true;
-    this.firstSelected = this.currentlySelected = this.getCurrentlySortedArray().indexOf(line)
+    this.currentlySelected = this.firstSelected;
     this.refreshSelected()
   }
   mouseOver(event, line:SubtitleLine) {
     if(this.isMouseDown){
       this.currentlySelected = this.getCurrentlySortedArray().indexOf(line)
-      this.refreshSelected()  
+      this.refreshSelected() 
     }
   }
 
   @HostListener('document:mouseup', ['$event'])
   onMouseUp(event) {
     this.isMouseDown = false;
-
-    
-
     this.previousSelectedLines = arrDiff(this.previousSelectedLines,this.currentSelectedLines, (i1,i2)=>i1.id === i2.id)
     this.currentSelectedLines = []
     //This is when you commit the operation to the resulting lines
   }
 
   refreshSelected() {
+    this.currentSelectedLines = this.getLineRange(this.firstSelected, this.currentlySelected)
+    this.selected = arrDiff(this.previousSelectedLines,this.currentSelectedLines, (i1,i2)=>i1.id === i2.id)
+  }
+
+  //Get an array that includes all lines between 2 lines ids
+  getLineRange(l1:number, l2:number) {
     let smaller = Math.min(this.firstSelected, this.currentlySelected)
     let bigger = Math.max(this.firstSelected, this.currentlySelected)
-    this.currentSelectedLines = this.getCurrentlySortedArray().filter((l, i) => i >= smaller && i <= bigger)
-
-    // this.getCurrentlySortedArray().filter((l, i) => i >= smaller && i <= bigger)
-
-    this.selected = arrDiff(this.previousSelectedLines,this.currentSelectedLines, (i1,i2)=>i1.id === i2.id)
+    return this.getCurrentlySortedArray().filter((l, i) => i >= smaller && i <= bigger)
   }
 
   //Boolean for template. Checks if row is selected. Applies a class if it is.

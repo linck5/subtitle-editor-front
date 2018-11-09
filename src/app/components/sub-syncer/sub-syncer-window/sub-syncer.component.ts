@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewEncapsulation, ViewChildren, QueryList, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChildren, QueryList, ElementRef, ViewChild, Query } from '@angular/core';
 import { SubListComponent } from '../sub-list/sub-list.component';
 import { Player } from 'video.js';
 import { TimelineComponent } from '../timeline/timeline.component';
 import { SubtitleService, SubtitleWrapper } from '../../../shared/subtitle.service';
 import { MatDialog } from '@angular/material';
 import { ShiftTimesComponent } from '../shift-times/shift-times.component';
+import { SubtitleLine } from '../subtitle';
 
 @Component({
   selector: 'app-sub-syncer',
@@ -18,7 +19,10 @@ export class SubSyncerComponent implements OnInit {
   subtitleJp:SubtitleWrapper
 
   @ViewChildren(SubListComponent, { read:ElementRef })
-  sublistComponents: QueryList<ElementRef>;
+  sublistComponentsElRef: QueryList<ElementRef>;
+
+  @ViewChildren(SubListComponent)
+  sublistComps:QueryList<SubListComponent>;
 
   @ViewChild(TimelineComponent)
   timelineComp: TimelineComponent
@@ -40,7 +44,7 @@ export class SubSyncerComponent implements OnInit {
       return;
     }
 
-    for(let subList of this.sublistComponents.toArray()){
+    for(let subList of this.sublistComponentsElRef.toArray()){
       if(subList.nativeElement != event.target){
         subList.nativeElement.scrollTop = event.target["scrollTop"];
         this.ignoreScroll = true;
@@ -53,11 +57,19 @@ export class SubSyncerComponent implements OnInit {
   }
 
   shiftTimes(){
-    console.log('shifting times...')
+    let sublistComps = this.sublistComps.toArray()
     this.dialog.open(ShiftTimesComponent, {
       width: '250px',
-      data: {selected: []}
+      data: [
+        {
+          wrapper: sublistComps[0].subtitle,
+          lines: sublistComps[0].selected
+        },
+        {
+          wrapper: sublistComps[1].subtitle,
+          lines: sublistComps[1].selected
+        },
+      ]
     });
   }
-
 }
