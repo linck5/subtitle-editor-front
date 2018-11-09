@@ -59,7 +59,6 @@ export class SubSyncerComponent implements OnInit {
   shiftTimes(){
     let sublistComps = this.sublistComps.toArray()
     this.dialog.open(ShiftTimesComponent, {
-      width: '250px',
       data: [
         {
           wrapper: sublistComps[0].subtitle,
