@@ -6,6 +6,7 @@ import { first } from 'rxjs/operators';
 import { SubObserver, updateSubImpl, updateChecker } from '../../../shared/subObserver';
 import { cloneObject, arrDiff } from '../../../shared/miscUtils';
 import { KeyboardService } from 'src/app/shared/keyboard.service';
+import { formattedStringToMl, handleTimeInput } from 'src/app/shared/input';
 
 const positions = Object.keys(Position);
 
@@ -99,9 +100,9 @@ export class SubListComponent implements OnInit, OnChanges, SubObserver {
   onFocusOut(event, subID:number, isStartTime:boolean, value:string, parentElem:HTMLElement){
     let line = this.subListSource.data.find(line => line.id === subID)
     if(isStartTime)
-      line.startTime = this.formattedStringToMl(value)
+      line.startTime = formattedStringToMl(value)
     else
-      line.endTime = this.formattedStringToMl(value)
+      line.endTime = formattedStringToMl(value)
 
     this.makeNotEditable(parentElem);
 
@@ -113,24 +114,8 @@ export class SubListComponent implements OnInit, OnChanges, SubObserver {
   }
 
   timesChanged(event, subID:number, isStartTime:boolean, value:string){
-
-    event.preventDefault();
-
-    let numbers = ['0','1','2','3','4','5','6','7','8','9']
-    if(!numbers.includes(event.key))
-      return;
-
-    let cursorToNumber = [0,2,2,3,5,5,6,8,8,9]
-
-    let indexToReplace = (cursorPos:number) => cursorToNumber[cursorPos]
-
-    let indexWhereItChanges = indexToReplace(event.target.selectionStart)
-
-    let newDisplayedValue = event.target.value.split("")
-    newDisplayedValue[indexWhereItChanges] = event.key
-    newDisplayedValue = newDisplayedValue.join('')
-    let result = this.formattedStringToMl(newDisplayedValue)
-    event.target.value = newDisplayedValue
+    handleTimeInput(event, value)
+    let result = formattedStringToMl(event.target.value)
 
     let line = cloneObject(this.subListSource.data.find(line => line.id === subID))
     if(isStartTime)
@@ -138,16 +123,6 @@ export class SubListComponent implements OnInit, OnChanges, SubObserver {
     else
       line.endTime = result
     this.updateSub(this.subtitle,[line], ChangeType.Update)
-    event.target.setSelectionRange(indexWhereItChanges+1,indexWhereItChanges+1, 'none')
-  }
-
-  private formattedStringToMl(str:string) {
-    let noColons = str.replace(/\D+/g, "")
-    let hours = parseInt(noColons.slice(0,1))
-    let minutes = parseInt(noColons.slice(1,3))
-    let seconds = parseInt(noColons.slice(3,5))
-    let centiSeconds = parseInt(noColons.slice(5))
-    return hours * 3600000 + minutes * 60000 + seconds * 1000 + centiSeconds * 10
   }
 
   //for template. no delete pls

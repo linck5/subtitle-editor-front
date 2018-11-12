@@ -2,17 +2,19 @@
 <mat-dialog-content>
   <mat-form-field appearance="outline">
     <mat-label>Time</mat-label>
-    <input matInput value="00:00:00">
+    <input #shiftTimeInput matInput type="text" [ngModel]='shiftTime | date:"H:mm:ss.SS":"+0000"' (keypress)="shiftChange($event, shiftTimeInput.value)">
   </mat-form-field>
   <p class="mat-h3">Affect:</p>
-  <mat-radio-group>
-      <mat-radio-button value="all">All</mat-radio-button>
-      <mat-radio-button value="selected">Selected</mat-radio-button>
+  <mat-radio-group required>
+      <mat-radio-button value="selected" checked>Selected</mat-radio-button>
       <mat-radio-button value="onward">Selection onward</mat-radio-button>
-  </mat-radio-group>      
+      <mat-radio-button value="all">All</mat-radio-button>
+  </mat-radio-group>
+  <p class="mat-small mb-0"><span class="accent">{{getLines('jp').length}}</span> Japanese lines selected</p>
+  <p class="mat-small my-0"><span class="accent">{{getLines('en').length}}</span> English lines selected</p>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>OK</button>
+  <button mat-button mat-dialog-close (click)='applyShift(shiftTimeInput.value)'>OK</button>
   <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
   <button mat-button mat-dialog-close>Cancel</button>
 </mat-dialog-actions>

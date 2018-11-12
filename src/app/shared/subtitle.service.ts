@@ -38,8 +38,8 @@ export class SubtitleService {
 
   private subtitleExample = 'subtitle/5b4e393ffa63a06878e26a9d';  // URL to web api
 
-  treeExampleEn = '5b9057dfd4c0f3f97ca13d78'
-  treeExampleJp = '5b905811d4c0f3f97ca13d7b'
+  treeExampleEn = '5b905811d4c0f3f97ca13d7b'
+  treeExampleJp = '5b9057dfd4c0f3f97ca13d78'
 
   private subtitles: Array<SubtitleWrapper> = []
 
@@ -87,6 +87,10 @@ export class SubtitleWrapper {
     //   console.log('sub updated: lines:')
     //   console.log(sub.lines)
     // })
+  }
+
+  getLanguage():string{
+    return this.subtitleSource.getValue().language;
   }
 
   //Updates the source, and notifies observers of changes
