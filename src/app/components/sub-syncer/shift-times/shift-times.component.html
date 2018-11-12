@@ -1,11 +1,15 @@
 <h2 mat-dialog-title>Shift Times</h2>
 <mat-dialog-content>
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" class="mat-form-field-no-padding">
     <mat-label>Time</mat-label>
-    <input #shiftTimeInput matInput type="text" [ngModel]='shiftTime | date:"H:mm:ss.SS":"+0000"' (keypress)="shiftChange($event, shiftTimeInput.value)">
+    <input #shiftTimeInput matInput type="text" (keydown)="shiftChange($event, shiftTimeInput.value)" [ngModel]='shiftTime | date:"H:mm:ss.SS":"+0000"'>
   </mat-form-field>
+  <mat-radio-group [(ngModel)]="shiftMode" required class="shift-mode-group">
+    <mat-radio-button value="backward">Backward</mat-radio-button>
+    <mat-radio-button value="forward" checked>Forward</mat-radio-button>
+  </mat-radio-group>
   <p class="mat-h3">Affect:</p>
-  <mat-radio-group required>
+  <mat-radio-group [(ngModel)]="selectionMode" required class="affect-group">
       <mat-radio-button value="selected" checked>Selected</mat-radio-button>
       <mat-radio-button value="onward">Selection onward</mat-radio-button>
       <mat-radio-button value="all">All</mat-radio-button>

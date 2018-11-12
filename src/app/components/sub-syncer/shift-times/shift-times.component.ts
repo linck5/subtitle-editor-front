@@ -13,6 +13,10 @@ export class ShiftTimesComponent implements OnInit {
 
   shiftTime:Date = new Date(0);
 
+  shiftMode:string = 'forward'; //currently selected shift mode
+  selectionMode:string = 'selected'; //currently selected selection mode
+  
+
   constructor(
     public dialogRef: MatDialogRef<ShiftTimesComponent>,
     @Inject(MAT_DIALOG_DATA) public lineInfo: ShiftTimesData) {}
@@ -30,15 +34,38 @@ export class ShiftTimesComponent implements OnInit {
   }
 
   applyShift(formattedShift:string) {
-    let ms = formattedStringToMl(formattedShift);
-    for (let i = 0; i < this.lineInfo.length; i++) {
-      const data = this.lineInfo[i];
-      for (let i = 0; i < data.lines.length; i++) {
-        const e = data.lines[i];
-        e.startTime += ms;
-        e.endTime += ms;
+    
+    console.log('shiftMode',this.shiftMode);
+    console.log('selectMode',this.selectionMode);
+    
+    
+    let ms = formattedStringToMl(formattedShift) * (this.shiftMode == 'forward' ? 1 : -1);
+    for (let i = 0; i < this.lineInfo.length; i++) { //This will always loop 2 times
+      //selection mode: selected, onward, all
+      let changedLines = []
+      switch (this.selectionMode) {
+        case 'selected':
+          changedLines = this.lineInfo[i].lines;
+          break;
+        case 'onward':
+          if(this.lineInfo[i].lines.length == 0)
+            break;
+          //getting startTime of last line of selection
+          let latestTime = this.lineInfo[i].lines.sort((a, b) => (a.startTime - b.startTime) * -1)[0].startTime
+          //concatting selection and all lines that appear after
+          changedLines = this.lineInfo[i].lines.concat(this.lineInfo[i].wrapper.getSubtitle().lines.filter(a => a.startTime > latestTime))
+          break;
+        case 'all':
+          changedLines = this.lineInfo[i].wrapper.getSubtitle().lines
+          break;
+      }   
+      for (let i = 0; i < changedLines.length; i++) {
+        const e = changedLines[i];
+        e.startTime = Math.max(0, e.startTime + ms);
+        e.endTime = Math.max(0, e.endTime + ms);
       }
-      data.wrapper.update(data.lines, ChangeType.Update);      
+
+      this.lineInfo[i].wrapper.update(changedLines, ChangeType.Update);      
     }
   }
 

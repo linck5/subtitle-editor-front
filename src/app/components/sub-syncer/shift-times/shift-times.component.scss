@@ -1,7 +1,18 @@
-mat-radio-button {
+.affect-group mat-radio-button {
   display: block;
   margin: 10px 0;
-  
+}
+
+mat-form-field {
+  padding-bottom: 5px;
+}
+
+.shift-mode-group {
+  display: block;
+
+  mat-radio-button {
+    margin: 10px 8px 10px 0;
+  }
 }
 
 .mat-dialog-content {

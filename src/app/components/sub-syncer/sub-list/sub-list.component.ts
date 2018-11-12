@@ -68,17 +68,17 @@ export class SubListComponent implements OnInit, OnChanges, SubObserver {
   }
 
   onSubChanges(changes:Array<Change>) {
-    let newList
+    let newList = this.subListSource.data
     for (let i = 0; i < changes.length; i++) {      
       switch(changes[i].type){
         case ChangeType.New:
-          newList = [...this.subListSource.data, changes[i].line]        
+          newList = [...newList, changes[i].line]        
           break;
         case ChangeType.Update:
-          newList = this.subListSource.data.map(line => line.id === changes[i].line.id ? line = changes[i].line : line)
+          newList = newList.map(line => line.id === changes[i].line.id ? line = changes[i].line : line)
           break;
         case ChangeType.Delete:
-          newList = this.subListSource.data.filter(line => line.id !== changes[i].line.id)
+          newList = newList.filter(line => line.id !== changes[i].line.id)
           this.selected.splice(this.selected.indexOf(changes[i].line),1)
           break;
       }

@@ -9,11 +9,11 @@
       <div class="time-cell">
         <!-- <div><input #startInput [ngModel]='sub.startTime | date:"mm:ss:SS"' (keydown)="timesChanged($event, sub.id, true, startInput.value)"></div> -->
         <div #startTime (dblclick)="onDoubleClick($event, startTime, sub)">
-          <input appAutofocus *ngIf="startTime.hasAttribute(editableAttr)" type="text" #startInput [ngModel]='sub.startTime | date:"H:mm:ss.SS":"+0000"' (blur)="onFocusOut($event, sub.id, true, startInput.value, startTime)" (keypress)="timesChanged($event, sub.id, true, startInput.value)">
+          <input appAutofocus *ngIf="startTime.hasAttribute(editableAttr)" type="text" #startInput [ngModel]='sub.startTime | date:"H:mm:ss.SS":"+0000"' (blur)="onFocusOut($event, sub.id, true, startInput.value, startTime)" (keydown)="timesChanged($event, sub.id, true, startInput.value)">
           <span *ngIf="!startTime.hasAttribute(editableAttr)">{{sub.startTime | date:"H:mm:ss.SS":"+0000"}}</span>
         </div>
         <div #endTime (dblclick)="onDoubleClick($event, endTime, sub)">
-          <input appAutofocus *ngIf="endTime.hasAttribute(editableAttr)" type="text" #endInput [ngModel]='sub.endTime | date:"H:mm:ss.SS":"+0000"' (blur)="onFocusOut($event, sub.id, false, endInput.value, endTime)" (keypress)="timesChanged($event, sub.id, false, endInput.value)">
+          <input appAutofocus *ngIf="endTime.hasAttribute(editableAttr)" type="text" #endInput [ngModel]='sub.endTime | date:"H:mm:ss.SS":"+0000"' (blur)="onFocusOut($event, sub.id, false, endInput.value, endTime)" (keydown)="timesChanged($event, sub.id, false, endInput.value)">
           <span *ngIf="!endTime.hasAttribute(editableAttr)">{{sub.endTime | date:"H:mm:ss.SS":"+0000"}}</span>
         </div>      
       </div>
