@@ -14,8 +14,10 @@
       <mat-radio-button value="onward">Selection onward</mat-radio-button>
       <mat-radio-button value="all">All</mat-radio-button>
   </mat-radio-group>
-  <p class="mat-small mb-0"><span class="accent">{{getLines('jp').length}}</span> Japanese lines selected</p>
-  <p class="mat-small my-0"><span class="accent">{{getLines('en').length}}</span> English lines selected</p>
+  <ng-container *ngIf="selectionMode !== 'all'">
+    <p class="mat-small mb-0" *ngFor="let sub of lineInfo"><span class="accent">{{sub.lines.length}}</span> lines from subtitle id:{{sub.wrapper.getSubtitle().id}} selected</p>
+  </ng-container>
+  <!-- <p class="mat-small my-0"><span class="accent">{{getLines('en').length}}</span> English lines selected</p> -->
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button mat-dialog-close (click)='applyShift(shiftTimeInput.value)'>OK</button>

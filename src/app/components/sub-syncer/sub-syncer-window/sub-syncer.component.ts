@@ -58,17 +58,13 @@ export class SubSyncerComponent implements OnInit {
 
   shiftTimes(){
     let sublistComps = this.sublistComps.toArray()
+    let dataArr = []
+    sublistComps.forEach(comp => {
+      if(comp.selected.length > 0)
+        dataArr.push({wrapper: comp.subtitle, lines: comp.selected})
+    });
     this.dialog.open(ShiftTimesComponent, {
-      data: [
-        {
-          wrapper: sublistComps[0].subtitle,
-          lines: sublistComps[0].selected
-        },
-        {
-          wrapper: sublistComps[1].subtitle,
-          lines: sublistComps[1].selected
-        },
-      ]
+      data: dataArr
     });
   }
 }
