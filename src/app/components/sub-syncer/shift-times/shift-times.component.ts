@@ -29,10 +29,6 @@ export class ShiftTimesComponent implements OnInit {
     }
   }
 
-  getLines(lang:string):SubtitleLine[] {
-    return this.lineInfo.find((data) => data.wrapper.getLanguage() == lang).lines;
-  }
-
   applyShift(formattedShift:string) {
     
     console.log('shiftMode',this.shiftMode);

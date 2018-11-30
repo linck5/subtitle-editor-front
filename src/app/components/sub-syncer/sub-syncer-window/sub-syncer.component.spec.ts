@@ -4,8 +4,10 @@ import { SubSyncerComponent } from './sub-syncer.component';
 import { VideoPreviewComponent } from '../../sub-syncer/video-preview/video-preview.component';
 import { TimelineComponent } from '../timeline/timeline.component';
 import { SubListComponent } from '../sub-list/sub-list.component';
-import { SubItemComponent } from '../timeline/sub-item/sub-item.component';
 import { FormsModule } from '@angular/forms';
+import { ApiService } from 'src/app/shared/api.service';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('SubSyncerComponent', () => {
   let component: SubSyncerComponent;
@@ -13,9 +15,10 @@ describe('SubSyncerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MaterialModule, FormsModule],
+      imports: [BrowserAnimationsModule, MaterialModule, FormsModule, HttpClientModule],
       declarations: [ SubSyncerComponent, VideoPreviewComponent,
-         TimelineComponent, SubListComponent, SubItemComponent ]
+         TimelineComponent, SubListComponent],
+      providers: [ApiService]
     })
     .compileComponents();
   }));

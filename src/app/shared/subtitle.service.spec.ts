@@ -1,11 +1,14 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { SubtitleService } from './subtitle.service';
+import { ApiService } from './api.service';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('SubtitleService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SubtitleService]
+      imports: [HttpClientModule],
+      providers: [ApiService, SubtitleService]
     });
   });
 
