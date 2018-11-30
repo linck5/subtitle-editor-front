@@ -21,12 +21,12 @@ export class ApiService {
   constructor(private http: HttpClient) {}
 
   get<T>(url: string): Observable<T> {
-    let obs = this.http.get<T>(this.getFullURL(url)) 
+    let obs = this.http.get<T>(this.getFullURL(url))
     return obs
       .pipe.apply(obs,[ //I have to call 'apply' because TS devs hate the spread operator
         tap(() =>{if(this.logApi) this.logRequest("GET", url)}),
         ...this.servicePipe]);
-  } 
+  }
 
   post(url: string, body: Object): Observable<any> {
     let obs = this.http.post<any>(this.getFullURL(url), body)
@@ -36,20 +36,29 @@ export class ApiService {
         ...this.servicePipe]);
   }
 
-  // put(url: string, body: Object): Observable<any> {
-  //   if(this.logApi) this.logRequest("PUT", url, body);
-  //   return this.http.put<any>(this.getFullURL(url), body).pipe(...this.servicePipe);
-  // }
+  put(url: string, body: Object): Observable<any> {
+    let obs = this.http.put<any>(this.getFullURL(url), body)
+    return obs
+      .pipe.apply(obs,[
+        tap(() =>{if(this.logApi) this.logRequest("PUT", url, body)}),
+        ...this.servicePipe]);
+  }
 
-  // patch(url: string, body: Object): Observable<any> {
-  //   if(this.logApi) this.logRequest("PATCH", url, body);
-  //   return this.http.patch<any>(this.getFullURL(url), body).pipe(...this.servicePipe);
-  // }
+  patch(url: string, body: Object): Observable<any> {
+    let obs = this.http.patch<any>(this.getFullURL(url), body)
+    return obs
+      .pipe.apply(obs,[
+        tap(() =>{if(this.logApi) this.logRequest("PATCH", url, body)}),
+        ...this.servicePipe]);
+  }
 
-  // delete(url: string): Observable<any> {
-  //   if(this.logApi) this.logRequest("DELETE", url);
-  //   return this.http.delete<any>(this.getFullURL(url)).pipe(...this.servicePipe);
-  // }
+  delete(url: string): Observable<any> {
+    let obs = this.http.delete<any>(this.getFullURL(url))
+    return obs
+      .pipe.apply(obs,[
+        tap(() =>{if(this.logApi) this.logRequest("DELETE", url)}),
+        ...this.servicePipe]);
+  }
 
   getFullURL(url: string): string {
     return `${this.baseUrl}/${url}`;
