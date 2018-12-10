@@ -1,0 +1,27 @@
+<p>
+  user-panel works!
+</p>
+
+Nodes:
+<ul>
+  <li *ngFor="let node of nodes">id: {{node._id}}, status: {{node.status}}, tree_id: {{node.tree_id}}</li>
+</ul>
+
+Trees:
+<ul>
+  <li *ngFor="let tree of trees">id: {{tree._id}}, language: {{tree.language}}, sub_id: {{tree.subtitle_id}}</li>
+</ul>
+
+Videos:
+<ul>
+  <li *ngFor="let video of videos">id: {{video._id}}, name: {{video.name}}, url: {{video.url}}</li>
+</ul>
+
+
+To do next: 
+<ul>
+  <li>this menu must group everything into videos, and when you click them, it must take you to the sub editor
+    with the corresponding node pair</li>
+  <li>subtitle editor component must be initialized by taking the node ids from the router url</li>
+</ul>
+

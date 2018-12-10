@@ -26,6 +26,8 @@ import { Autosize } from './components/sub-syncer/autosize.directive';
 import { TimelineComponent } from './components/sub-syncer/timeline/timeline.component';
 import { AutofocusDirective } from './shared/autofocus.directive';
 import { ShiftTimesComponent } from './components/sub-syncer/shift-times/shift-times.component';
+import { SideMenuComponent } from './components/sub-syncer/side-menu/side-menu.component';
+import { UserPanelComponent } from './components/sub-syncer/user-panel/user-panel.component';
 // import { SubItemComponent } from './components/sub-syncer/timeline/sub-item/sub-item.component'
 
 
@@ -40,7 +42,9 @@ import { ShiftTimesComponent } from './components/sub-syncer/shift-times/shift-t
     VideoPreviewComponent,
     TimelineComponent,
     AutofocusDirective,
-    ShiftTimesComponent
+    ShiftTimesComponent,
+    SideMenuComponent,
+    UserPanelComponent
     // SubItemComponent
   ],
   imports: [

@@ -2,10 +2,11 @@
   <span>Subtitle Maker</span>
   <button class="shift-times-icon" (click)="shiftTimes()"><mat-icon>alarm_on</mat-icon></button>
   <span class="auto-filler"></span>
-  <mat-icon>menu</mat-icon>
+  <button (click)="sideMenu.active = !sideMenu.active"><mat-icon>menu</mat-icon></button>
 </mat-toolbar>
+<app-side-menu #sideMenu [hidden]="!sideMenu.active"></app-side-menu>
 <div class="top-section">
-  <app-video-preview (vPlayerLoad)="onPlayerLoad($event)" [subJp]="subtitleJp" [subEn]=subtitleEn></app-video-preview>
+  <app-video-preview (vPlayerLoad)="onPlayerLoad($event)" [subJp]=subtitleJp [subEn]=subtitleEn></app-video-preview>
   <div class="timeline-cont">
     <app-timeline [subJp]="subtitleJp" [subEn]=subtitleEn></app-timeline>
   </div>
